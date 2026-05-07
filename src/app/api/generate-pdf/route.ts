@@ -1861,11 +1861,11 @@ export async function POST(request: NextRequest) {
           );
         });
       } catch {
-        // Fallback: generate PDF from HTML using Playwright directly
-        await generatePdfWithPlaywright(htmlPath, pdfPath);
+        // Fallback: generate PDF from HTML using Puppeteer directly
+        await generatePdfWithPuppeteer(htmlPath, pdfPath);
       }
     } else {
-      await generatePdfWithPlaywright(htmlPath, pdfPath);
+      await generatePdfWithPuppeteer(htmlPath, pdfPath);
     }
 
     const pdfBuffer = await import('fs/promises').then(fs => fs.readFile(pdfPath));
@@ -1889,11 +1889,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function generatePdfWithPlaywright(htmlPath: string, pdfPath: string) {
-  const { chromium } = await import('playwright');
-  const browser = await chromium.launch({ headless: true });
+async function generatePdfWithPuppeteer(htmlPath: string, pdfPath: string) {
+  const puppeteer = await import('puppeteer-core');
+  const chromium = await import('@sparticuz/chromium');
+  
+  const browser = await puppeteer.default.launch({
+    args: chromium.default.args,
+    defaultViewport: chromium.default.defaultViewport,
+    executablePath: await chromium.default.executablePath(),
+    headless: chromium.default.headless === true ? true : "new",
+  });
+  
   const page = await browser.newPage();
-  await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle' });
+  await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle0' });
   await page.pdf({
     path: pdfPath,
     format: 'A4',
