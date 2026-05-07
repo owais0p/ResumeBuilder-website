@@ -57,14 +57,22 @@ function ResumePreviewView() {
       const html2canvas = (await import('html2canvas')).default;
       const { jsPDF } = await import('jspdf');
 
+      // Temporarily remove constraints for full-quality capture
+      const originalStyle = element.getAttribute('style') || '';
+      element.style.maxHeight = 'none';
+      element.style.overflow = 'visible';
+      element.style.height = 'auto';
+
       const canvas = await html2canvas(element, {
         scale: 2,
         useCORS: true,
+        allowTaint: true,
         logging: false,
         backgroundColor: '#ffffff',
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight
       });
+
+      // Restore original styles
+      element.setAttribute('style', originalStyle);
 
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF({
@@ -100,7 +108,10 @@ function ResumePreviewView() {
         URL.revokeObjectURL(url);
       } catch (fallbackError) {
         console.error('All download methods failed:', fallbackError);
-        alert('Failed to generate PDF. Please try again or use the print option in your browser.');
+        const confirmPrint = confirm('Direct PDF generation failed due to browser/server limits. Would you like to use the browser print menu to save as PDF instead? (Recommended fallback)');
+        if (confirmPrint) {
+          window.print();
+        }
       }
     }
   };
