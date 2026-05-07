@@ -307,14 +307,14 @@ export default function LandingPage() {
             <ThemeToggle />
             <Button
               size="sm"
-              className="hidden rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 text-sm font-semibold shadow-sm sm:inline-flex hover:shadow-md"
+              className="hidden rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 text-sm font-semibold shadow-sm transition-all hover:brightness-110 hover:shadow-md active:scale-95 sm:inline-flex"
               onClick={() => setCurrentView('builder')}
             >
               Get Started
             </Button>
             <Button
               size="sm"
-              className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 text-sm font-semibold shadow-sm sm:hidden"
+              className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 text-sm font-semibold shadow-sm transition-all hover:brightness-110 hover:shadow-md active:scale-95 sm:hidden"
               onClick={() => setCurrentView('builder')}
             >
               Start
