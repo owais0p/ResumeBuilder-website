@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import {
   FileText,
   Sparkles,
@@ -501,12 +501,22 @@ export default function LandingPage() {
   const { setCurrentView, setSelectedTemplate } = useAppStore();
   const heroRef = useRef<HTMLElement>(null);
   const activeSection = useActiveSection(NAV_SECTIONS);
+  const [activeCategory, setActiveCategory] = useState('All');
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
   });
   const heroY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
+  const filteredTemplates = useMemo(
+    () => activeCategory === 'All'
+      ? templateShowcase
+      : templateShowcase.filter((t) => t.category === activeCategory),
+    [activeCategory],
+  );
+  const featuredTemplates = filteredTemplates.slice(0, 2);
+  const gridTemplates = filteredTemplates.slice(2);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-white dark:bg-slate-950 text-gray-900 dark:text-gray-100">
@@ -927,19 +937,34 @@ export default function LandingPage() {
 
           {/* Category pills */}
           <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
-            {['All', 'Corporate', 'Tech', 'Creative', 'Minimal', 'Academic', 'Freelance', 'Elegant'].map((cat) => (
-              <button
-                key={cat}
-                className="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-xs font-medium text-gray-600 transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-gray-700 dark:bg-slate-800 dark:text-gray-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400 first:border-emerald-400 first:bg-emerald-50 first:text-emerald-700 dark:first:border-emerald-600 dark:first:bg-emerald-900/30 dark:first:text-emerald-400"
-              >
-                {cat}
-              </button>
-            ))}
+            {['All', 'Corporate', 'Tech', 'Creative', 'Minimal', 'Academic', 'Freelance', 'Elegant'].map((cat) => {
+              const isActive = activeCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-all ${
+                    isActive
+                      ? 'border-emerald-400 bg-emerald-50 text-emerald-700 shadow-sm shadow-emerald-100/50 dark:border-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400 dark:shadow-emerald-900/30'
+                      : 'border-gray-200 bg-white text-gray-600 hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-gray-700 dark:bg-slate-800 dark:text-gray-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400'
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
           </div>
 
           {/* Featured large card */}
-          <div className="mb-8 grid gap-4 lg:grid-cols-2">
-            {templateShowcase.slice(0, 2).map((t, i) => (
+          {featuredTemplates.length > 0 && (
+          <motion.div
+            key={`featured-${activeCategory}`}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut' }}
+            className="mb-8 grid gap-4 lg:grid-cols-2"
+          >
+            {featuredTemplates.map((t, i) => (
               <motion.div
                 key={t.name}
                 className="group cursor-pointer"
@@ -994,11 +1019,17 @@ export default function LandingPage() {
                 </div>
               </motion.div>
             ))}
-          </div>
-
-          {/* Grid of remaining templates */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {templateShowcase.slice(2).map((t, i) => (
+          </motion.div>
+          )}
+          {gridTemplates.length > 0 && (
+          <motion.div
+            key={`grid-${activeCategory}`}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: 'easeOut', delay: 0.05 }}
+            className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          >
+            {gridTemplates.map((t, i) => (
               <motion.div
                 key={t.name}
                 className="group cursor-pointer"
@@ -1054,7 +1085,20 @@ export default function LandingPage() {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
+          )}
+
+          {filteredTemplates.length === 0 && (
+            <motion.div
+              key={`empty-${activeCategory}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="py-16 text-center"
+            >
+              <LayoutTemplate className="mx-auto mb-4 h-10 w-10 text-gray-300 dark:text-gray-600" />
+              <p className="text-sm text-gray-400 dark:text-gray-500">No templates in this category yet.</p>
+            </motion.div>
+          )}
 
           <motion.div
             className="mt-12 text-center"
