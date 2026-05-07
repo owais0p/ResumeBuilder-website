@@ -160,7 +160,7 @@ function ResumePreviewView() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-950 dark:to-slate-900">
       {/* Top Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 pt-[env(safe-area-inset-top)]">
+      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 pt-[env(safe-area-inset-top)] print:hidden">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14 sm:h-16">
             <button
@@ -194,11 +194,11 @@ function ResumePreviewView() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex-1"
+            className="flex-1 print:p-0 print:m-0"
           >
-            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden">
-              <div className="p-1">
-                <div id="resume-preview-content" className="overflow-auto max-h-[60vh] sm:max-h-[75vh] lg:max-h-[85vh]">
+            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden print:shadow-none print:rounded-none">
+              <div className="p-1 print:p-0">
+                <div id="resume-preview-content" className="overflow-auto max-h-[60vh] sm:max-h-[75vh] lg:max-h-[85vh] print:max-h-none print:overflow-visible">
                   {TemplateComponent && (
                     <Suspense fallback={<LoadingFallback />}>
                       <TemplateComponent data={resumeData} />
@@ -214,7 +214,7 @@ function ResumePreviewView() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="lg:w-80 space-y-4"
+            className="lg:w-80 space-y-4 print:hidden"
           >
             {/* Template Switcher */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
