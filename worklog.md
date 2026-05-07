@@ -107,3 +107,26 @@ Stage Summary:
 - 12 resume templates now available: Classic, Modern, Creative, Executive, Minimalist, Tech, Infographic, Academic, Freelancer, Corporate, Elegant, Developer
 - All templates registered in types, page.tsx, ResumeWizard.tsx, and landing page showcase
 - 0 lint errors
+
+---
+Task ID: 5
+Agent: Main Orchestrator
+Task: Revamp templates section — change heading, add category badges, richer visual mockups, fix stale references
+
+Work Log:
+- Changed heading from "Professional Templates" → "Templates for Every Style" with updated description
+- Added category pills row (All, Corporate, Tech, Creative, Minimal, Academic, Freelance, Elegant) above the grid
+- Added `category` and `badge` fields to each template in templateShowcase data (Popular/New badges, category tags)
+- Created `TemplateMockup` component with 7 distinct mini-layout variants: sidebar, split, terminal, header, bars, cards, single — each rendering a unique CSS-based miniature resume layout
+- Updated featured large cards with badge (Popular/New), category tag overlay, and TemplateMockup
+- Updated grid cards with taller preview area (h-44), badge, category tag, enhanced hover CTA, and accent dot with border
+- Fixed features grid reference: "7 Beautiful Templates" → "12 Beautiful Templates" with updated description
+- Fixed how-it-works step 2: "7 professional templates" → "12 unique templates"
+- 0 lint errors, dev server compiles clean
+
+Stage Summary:
+- Templates section heading changed to inclusive "Templates for Every Style"
+- Category filter pills added for visual organization
+- Each template now shows its category badge, Popular/New tag, and unique mini-layout mockup
+- All stale "7" references updated to "12"
+- 0 lint errors

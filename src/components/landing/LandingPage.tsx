@@ -133,8 +133,8 @@ const features = [
   },
   {
     icon: LayoutTemplate,
-    title: '7 Beautiful Templates',
-    description: 'From Classic to Infographic — pick the style that matches your industry.',
+    title: '12 Beautiful Templates',
+    description: 'From Classic to Developer — pick the style that matches your industry and personality.',
     gradient: 'from-amber-500 to-orange-500',
     span: 'md:col-span-1',
   },
@@ -191,7 +191,7 @@ const steps = [
   {
     step: 2,
     title: 'Choose a Template',
-    description: 'Browse 7 professional templates, customize colors and layout with live preview.',
+    description: 'Browse 12 unique templates, customize colors and layout with live preview.',
   },
   {
     step: 3,
@@ -207,6 +207,9 @@ const templateShowcase = [
     description: 'Traditional, timeless design perfect for corporate roles.',
     color: 'from-slate-600 to-slate-800',
     accent: '#475569',
+    category: 'Corporate',
+    badge: 'Popular',
+    layout: 'single',
   },
   {
     key: 'modern',
@@ -214,6 +217,9 @@ const templateShowcase = [
     description: 'Clean lines with bold accent colors for tech roles.',
     color: 'from-emerald-600 to-teal-700',
     accent: '#059669',
+    category: 'Tech',
+    badge: 'Popular',
+    layout: 'sidebar',
   },
   {
     key: 'creative',
@@ -221,6 +227,9 @@ const templateShowcase = [
     description: 'Eye-catching design for designers and creatives.',
     color: 'from-violet-600 to-purple-700',
     accent: '#7c3aed',
+    category: 'Creative',
+    badge: 'Popular',
+    layout: 'split',
   },
   {
     key: 'executive',
@@ -228,6 +237,8 @@ const templateShowcase = [
     description: 'Premium navy & gold for senior leadership.',
     color: 'from-blue-900 to-slate-900',
     accent: '#1e3a5f',
+    category: 'Corporate',
+    layout: 'sidebar',
   },
   {
     key: 'minimalist',
@@ -235,6 +246,8 @@ const templateShowcase = [
     description: 'Stripped-back elegance that lets content shine.',
     color: 'from-gray-700 to-gray-900',
     accent: '#374151',
+    category: 'Minimal',
+    layout: 'single',
   },
   {
     key: 'tech',
@@ -242,6 +255,9 @@ const templateShowcase = [
     description: 'GitHub-inspired dark theme for developers.',
     color: 'from-zinc-800 to-zinc-950',
     accent: '#18181b',
+    category: 'Tech',
+    badge: 'New',
+    layout: 'terminal',
   },
   {
     key: 'infographic',
@@ -249,6 +265,8 @@ const templateShowcase = [
     description: 'Visual timeline with progress bars and icons.',
     color: 'from-teal-500 to-emerald-600',
     accent: '#14b8a6',
+    category: 'Creative',
+    layout: 'bars',
   },
   {
     key: 'academic',
@@ -256,6 +274,9 @@ const templateShowcase = [
     description: 'Serif typography with burgundy accents for researchers.',
     color: 'from-rose-800 to-red-900',
     accent: '#6B1D2A',
+    category: 'Academic',
+    badge: 'New',
+    layout: 'single',
   },
   {
     key: 'freelancer',
@@ -263,6 +284,9 @@ const templateShowcase = [
     description: 'Warm amber design with featured work cards.',
     color: 'from-amber-400 to-orange-500',
     accent: '#f59e0b',
+    category: 'Freelance',
+    badge: 'New',
+    layout: 'cards',
   },
   {
     key: 'corporate',
@@ -270,6 +294,8 @@ const templateShowcase = [
     description: 'Formal charcoal header with steel blue accents.',
     color: 'from-gray-700 to-slate-800',
     accent: '#3b6b96',
+    category: 'Corporate',
+    layout: 'header',
   },
   {
     key: 'elegant',
@@ -277,6 +303,9 @@ const templateShowcase = [
     description: 'Rose gold design with timeline layout.',
     color: 'from-rose-300 to-amber-200',
     accent: '#e8a0b4',
+    category: 'Elegant',
+    badge: 'New',
+    layout: 'split',
   },
   {
     key: 'developer',
@@ -284,8 +313,152 @@ const templateShowcase = [
     description: 'Terminal-inspired with dark banner and green highlights.',
     color: 'from-slate-800 to-gray-900',
     accent: '#22c55e',
+    category: 'Tech',
+    badge: 'New',
+    layout: 'terminal',
   },
 ];
+
+/* ------------------------------------------------------------------ */
+/*  Template Mockup (different mini-layouts per template)              */
+/* ------------------------------------------------------------------ */
+
+function TemplateMockup({ layout }: { layout: string }) {
+  const o = 'opacity-20 text-white'; // base class
+  return (
+    <div className="absolute inset-0 p-3">
+      {layout === 'sidebar' && (
+        <div className={`flex h-full gap-1.5 ${o}`}>
+          <div className="w-1/4 flex flex-col gap-1.5">
+            <div className="h-6 w-full rounded-sm bg-white/60" />
+            <div className="flex-1 rounded-sm bg-white/30" />
+            <div className="h-3 w-full rounded-sm bg-white/20" />
+            <div className="h-3 w-3/4 rounded-sm bg-white/20" />
+            <div className="h-3 w-5/6 rounded-sm bg-white/20" />
+          </div>
+          <div className="flex-1 flex flex-col gap-1.5">
+            <div className="h-2 w-14 rounded-sm bg-white/70" />
+            <div className="h-1 w-20 rounded-sm bg-white/40 mb-1" />
+            <div className="h-[1px] w-full bg-white/20 mb-1" />
+            <div className="h-1.5 w-full rounded-sm bg-white/30" />
+            <div className="h-1.5 w-4/5 rounded-sm bg-white/30" />
+            <div className="h-1.5 w-3/5 rounded-sm bg-white/30" />
+            <div className="h-[1px] w-full bg-white/20 my-1" />
+            <div className="h-1.5 w-full rounded-sm bg-white/30" />
+            <div className="h-1.5 w-3/4 rounded-sm bg-white/30" />
+          </div>
+        </div>
+      )}
+      {layout === 'split' && (
+        <div className={`flex h-full gap-1.5 ${o}`}>
+          <div className="w-[30%] flex flex-col gap-1.5">
+            <div className="h-8 w-full rounded-sm bg-white/50" />
+            <div className="h-2 w-full rounded-sm bg-white/30" />
+            <div className="h-2 w-3/4 rounded-sm bg-white/30" />
+          </div>
+          <div className="flex-1 flex flex-col gap-1">
+            <div className="h-2 w-16 rounded-sm bg-white/60" />
+            <div className="h-1.5 w-full rounded-sm bg-white/25" />
+            <div className="h-1.5 w-5/6 rounded-sm bg-white/25" />
+            <div className="mt-1 h-2 w-12 rounded-sm bg-white/60" />
+            <div className="h-1.5 w-full rounded-sm bg-white/25" />
+            <div className="h-1.5 w-4/5 rounded-sm bg-white/25" />
+            <div className="h-1.5 w-3/5 rounded-sm bg-white/25" />
+            <div className="mt-1 h-2 w-10 rounded-sm bg-white/60" />
+            <div className="h-1.5 w-full rounded-sm bg-white/25" />
+          </div>
+        </div>
+      )}
+      {layout === 'terminal' && (
+        <div className={`flex flex-col h-full gap-1.5 ${o}`}>
+          <div className="flex gap-1">
+            <div className="h-1.5 w-1.5 rounded-full bg-red-400/60" />
+            <div className="h-1.5 w-1.5 rounded-full bg-yellow-400/60" />
+            <div className="h-1.5 w-1.5 rounded-full bg-green-400/60" />
+          </div>
+          <div className="h-2 w-24 rounded-sm bg-white/50 font-mono" />
+          <div className="h-1 w-32 rounded-sm bg-emerald-300/40" />
+          <div className="h-1 w-20 rounded-sm bg-emerald-300/30" />
+          <div className="h-1 w-28 rounded-sm bg-emerald-300/20" />
+          <div className="mt-1 h-2 w-16 rounded-sm bg-white/50 font-mono" />
+          <div className="h-1 w-full rounded-sm bg-emerald-300/40" />
+          <div className="h-1 w-4/5 rounded-sm bg-emerald-300/30" />
+          <div className="h-1 w-3/5 rounded-sm bg-emerald-300/20" />
+          <div className="mt-1 flex gap-1">
+            <div className="h-2 w-8 rounded-sm bg-emerald-400/30" />
+            <div className="h-2 w-10 rounded-sm bg-emerald-400/25" />
+            <div className="h-2 w-6 rounded-sm bg-emerald-400/20" />
+          </div>
+        </div>
+      )}
+      {layout === 'header' && (
+        <div className={`flex flex-col h-full gap-1.5 ${o}`}>
+          <div className="h-6 w-full rounded-sm bg-white/50" />
+          <div className="flex gap-2 items-center">
+            <div className="h-2.5 w-16 rounded-sm bg-white/60" />
+            <div className="h-1 w-24 rounded-sm bg-white/40" />
+          </div>
+          <div className="h-[1px] w-full bg-white/20" />
+          <div className="h-1.5 w-full rounded-sm bg-white/25" />
+          <div className="h-1.5 w-5/6 rounded-sm bg-white/25" />
+          <div className="h-1.5 w-4/5 rounded-sm bg-white/25" />
+          <div className="h-[1px] w-full bg-white/20 my-0.5" />
+          <div className="h-1.5 w-full rounded-sm bg-white/25" />
+          <div className="h-1.5 w-3/4 rounded-sm bg-white/25" />
+          <div className="h-1.5 w-5/6 rounded-sm bg-white/25" />
+        </div>
+      )}
+      {layout === 'bars' && (
+        <div className={`flex flex-col h-full gap-1.5 ${o}`}>
+          <div className="h-2 w-16 rounded-sm bg-white/60" />
+          <div className="h-1.5 w-full rounded-sm bg-white/30" />
+          <div className="h-1.5 w-4/5 rounded-sm bg-white/30" />
+          <div className="mt-1 flex items-end gap-1.5">
+            <div className="h-4 w-2/5 rounded-sm bg-white/40" />
+            <div className="h-3 w-1/3 rounded-sm bg-white/30" />
+            <div className="h-5 w-1/4 rounded-sm bg-white/50" />
+          </div>
+          <div className="mt-1 h-2 w-12 rounded-sm bg-white/60" />
+          <div className="h-1.5 w-full rounded-sm bg-white/30" />
+          <div className="h-1.5 w-3/4 rounded-sm bg-white/30" />
+          <div className="h-1.5 w-5/6 rounded-sm bg-white/30" />
+        </div>
+      )}
+      {layout === 'cards' && (
+        <div className={`flex flex-col h-full gap-1.5 ${o}`}>
+          <div className="h-2 w-14 rounded-sm bg-white/60" />
+          <div className="h-1.5 w-20 rounded-sm bg-white/40" />
+          <div className="mt-1 grid grid-cols-2 gap-1">
+            <div className="h-8 rounded-sm bg-white/25 border border-white/15" />
+            <div className="h-8 rounded-sm bg-white/25 border border-white/15" />
+            <div className="h-8 rounded-sm bg-white/25 border border-white/15" />
+            <div className="h-8 rounded-sm bg-white/25 border border-white/15" />
+          </div>
+          <div className="mt-1 flex gap-1">
+            <div className="h-2 w-8 rounded-full bg-white/30" />
+            <div className="h-2 w-6 rounded-full bg-white/30" />
+            <div className="h-2 w-10 rounded-full bg-white/30" />
+          </div>
+        </div>
+      )}
+      {layout === 'single' && (
+        <div className={`flex flex-col h-full gap-1.5 ${o}`}>
+          <div className="h-2.5 w-18 rounded-sm bg-white/60" />
+          <div className="h-1.5 w-28 rounded-sm bg-white/40 mb-0.5" />
+          <div className="h-[1px] w-full bg-white/20 mb-1" />
+          <div className="h-1.5 w-full rounded-sm bg-white/30" />
+          <div className="h-1.5 w-4/5 rounded-sm bg-white/30" />
+          <div className="h-1.5 w-3/5 rounded-sm bg-white/30" />
+          <div className="h-[1px] w-full bg-white/20 my-1" />
+          <div className="h-1.5 w-full rounded-sm bg-white/30" />
+          <div className="h-1.5 w-3/4 rounded-sm bg-white/30" />
+          <div className="h-1.5 w-5/6 rounded-sm bg-white/30" />
+          <div className="h-1.5 w-2/3 rounded-sm bg-white/30" />
+        </div>
+      )}
+    </div>
+  );
+}
 
 /* ------------------------------------------------------------------ */
 /*  Component                                                          */
@@ -655,15 +828,27 @@ export default function LandingPage() {
               Templates
             </span>
             <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              Professional{' '}
+              Templates for{' '}
               <span className="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-                Templates
+                Every Style
               </span>
             </h2>
             <p className="mt-4 text-lg text-gray-500 dark:text-gray-400">
-              Choose the perfect design for your industry. Each template is ATS-friendly and fully customizable.
+              From corporate to creative, academic to tech — find the design that tells your story best.
             </p>
           </motion.div>
+
+          {/* Category pills */}
+          <div className="mb-10 flex flex-wrap items-center justify-center gap-2">
+            {['All', 'Corporate', 'Tech', 'Creative', 'Minimal', 'Academic', 'Freelance', 'Elegant'].map((cat) => (
+              <button
+                key={cat}
+                className="rounded-full border border-gray-200 bg-white px-4 py-1.5 text-xs font-medium text-gray-600 transition-all hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700 dark:border-gray-700 dark:bg-slate-800 dark:text-gray-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-900/20 dark:hover:text-emerald-400 first:border-emerald-400 first:bg-emerald-50 first:text-emerald-700 dark:first:border-emerald-600 dark:first:bg-emerald-900/30 dark:first:text-emerald-400"
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
 
           {/* Featured large card */}
           <div className="mb-8 grid gap-4 lg:grid-cols-2">
@@ -685,28 +870,31 @@ export default function LandingPage() {
                   <div className="flex">
                     {/* Mini resume preview */}
                     <div className={`relative w-1/2 min-h-[180px] bg-gradient-to-br ${t.color} overflow-hidden`}>
-                      {/* Tiny mock resume */}
-                      <div className="p-3 opacity-25 text-white">
-                        <div className="h-2.5 w-16 bg-white rounded mb-1" />
-                        <div className="h-1.5 w-24 bg-white/70 rounded mb-3" />
-                        <div className="h-[1px] w-full bg-white/30 mb-2" />
-                        <div className="h-1.5 w-full bg-white/50 rounded mb-1" />
-                        <div className="h-1.5 w-4/5 bg-white/50 rounded mb-1" />
-                        <div className="h-1.5 w-3/5 bg-white/50 rounded mb-3" />
-                        <div className="h-1.5 w-full bg-white/50 rounded mb-1" />
-                        <div className="h-1.5 w-3/4 bg-white/50 rounded" />
-                      </div>
-                      {/* Accent badge */}
-                      <div className="absolute top-3 right-3">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm">
-                          <LayoutTemplate className="h-3.5 w-3.5 text-white" />
+                      {/* Mockup layout */}
+                      <TemplateMockup layout={t.layout} />
+                      {/* Badge */}
+                      {t.badge && (
+                        <div className="absolute top-3 left-3">
+                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
+                            t.badge === 'Popular'
+                              ? 'bg-amber-400 text-amber-900'
+                              : 'bg-emerald-400 text-emerald-900'
+                          }`}>
+                            {t.badge}
+                          </span>
                         </div>
+                      )}
+                      {/* Category tag */}
+                      <div className="absolute bottom-3 left-3">
+                        <span className="rounded-md bg-white/15 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-white/80 backdrop-blur-sm">
+                          {t.category}
+                        </span>
                       </div>
                     </div>
                     {/* Info */}
                     <div className="flex flex-col justify-center p-5 flex-1">
                       <span className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
-                        {t.key} template
+                        {t.category}
                       </span>
                       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1.5">{t.name}</h3>
                       <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400 mb-3">{t.description}</p>
@@ -739,27 +927,29 @@ export default function LandingPage() {
               >
                 <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-gray-300/30 hover:-translate-y-0.5 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/20">
                   {/* Template preview */}
-                  <div className={`relative h-40 bg-gradient-to-br ${t.color} overflow-hidden`}>
-                    {/* Mini resume content */}
-                    <div className="p-3 opacity-25 text-white">
-                      <div className="h-2 w-14 bg-white rounded mb-1" />
-                      <div className="h-1 w-20 bg-white/70 rounded mb-2.5" />
-                      <div className="h-[1px] w-full bg-white/30 mb-2" />
-                      <div className="h-1 w-full bg-white/50 rounded mb-1" />
-                      <div className="h-1 w-4/5 bg-white/50 rounded mb-1" />
-                      <div className="h-1 w-3/5 bg-white/50 rounded mb-2.5" />
-                      <div className="h-1 w-full bg-white/50 rounded mb-1" />
-                      <div className="h-1 w-3/4 bg-white/50 rounded" />
-                    </div>
-                    {/* Template icon */}
-                    <div className="absolute top-2.5 right-2.5">
-                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm">
-                        <LayoutTemplate className="h-3 w-3 text-white" />
+                  <div className={`relative h-44 bg-gradient-to-br ${t.color} overflow-hidden`}>
+                    <TemplateMockup layout={t.layout} />
+                    {/* Badge */}
+                    {t.badge && (
+                      <div className="absolute top-2.5 left-2.5">
+                        <span className={`rounded-full px-2 py-0.5 text-[8px] font-bold uppercase tracking-wider shadow-sm ${
+                          t.badge === 'Popular'
+                            ? 'bg-amber-400 text-amber-900'
+                            : 'bg-emerald-400 text-emerald-900'
+                        }`}>
+                          {t.badge}
+                        </span>
                       </div>
+                    )}
+                    {/* Category tag */}
+                    <div className="absolute bottom-2.5 left-2.5">
+                      <span className="rounded-md bg-black/20 px-2 py-0.5 text-[8px] font-semibold uppercase tracking-wider text-white/80 backdrop-blur-sm">
+                        {t.category}
+                      </span>
                     </div>
                     {/* Hover CTA */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/25">
-                      <div className="flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-gray-900 opacity-0 shadow-lg transition-all duration-300 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 dark:bg-slate-800/90 dark:text-white">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/30">
+                      <div className="flex items-center gap-1.5 rounded-full bg-white/90 px-3.5 py-2 text-xs font-semibold text-gray-900 opacity-0 shadow-lg transition-all duration-300 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 dark:bg-slate-800/90 dark:text-white">
                         Use Template
                         <ArrowRight className="h-3 w-3" />
                       </div>
@@ -769,9 +959,9 @@ export default function LandingPage() {
                     <div className="flex items-center justify-between">
                       <div>
                         <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t.name}</h3>
-                        <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{t.description}</p>
+                        <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400 line-clamp-1">{t.description}</p>
                       </div>
-                      <div className="h-2 w-2 rounded-full transition-colors group-hover:bg-emerald-500" style={{ backgroundColor: t.accent }} />
+                      <div className="h-2.5 w-2.5 rounded-full border-2 border-white/50 shadow-sm transition-colors group-hover:bg-emerald-500 group-hover:border-emerald-400" style={{ backgroundColor: t.accent }} />
                     </div>
                   </div>
                 </div>
