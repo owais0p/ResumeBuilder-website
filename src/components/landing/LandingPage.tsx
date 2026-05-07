@@ -118,7 +118,7 @@ function StatCounter({ icon: Icon, value, suffix, label, isDecimal }: {
 
 const stats = [
   { icon: FileText, value: 10000, suffix: '+', label: 'Resumes Created' },
-  { icon: LayoutTemplate, value: 50, suffix: '+', label: 'Templates' },
+  { icon: LayoutTemplate, value: 12, suffix: '+', label: 'Templates' },
   { icon: Star, value: 4.9, suffix: '★', label: 'User Rating', isDecimal: true },
   { icon: Zap, value: 30, suffix: 's', label: 'Avg Build Time' },
 ];
@@ -249,6 +249,41 @@ const templateShowcase = [
     description: 'Visual timeline with progress bars and icons.',
     color: 'from-teal-500 to-emerald-600',
     accent: '#14b8a6',
+  },
+  {
+    key: 'academic',
+    name: 'Academic',
+    description: 'Serif typography with burgundy accents for researchers.',
+    color: 'from-rose-800 to-red-900',
+    accent: '#6B1D2A',
+  },
+  {
+    key: 'freelancer',
+    name: 'Freelancer',
+    description: 'Warm amber design with featured work cards.',
+    color: 'from-amber-400 to-orange-500',
+    accent: '#f59e0b',
+  },
+  {
+    key: 'corporate',
+    name: 'Corporate',
+    description: 'Formal charcoal header with steel blue accents.',
+    color: 'from-gray-700 to-slate-800',
+    accent: '#3b6b96',
+  },
+  {
+    key: 'elegant',
+    name: 'Elegant',
+    description: 'Rose gold design with timeline layout.',
+    color: 'from-rose-300 to-amber-200',
+    accent: '#e8a0b4',
+  },
+  {
+    key: 'developer',
+    name: 'Developer',
+    description: 'Terminal-inspired with dark banner and green highlights.',
+    color: 'from-slate-800 to-gray-900',
+    accent: '#22c55e',
   },
 ];
 

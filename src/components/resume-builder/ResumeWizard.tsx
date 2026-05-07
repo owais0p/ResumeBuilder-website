@@ -1094,6 +1094,162 @@ function InfographicPreview() {
   );
 }
 
+/* -- Preview components for new templates ----------------------------------- */
+
+function AcademicPreview() {
+  return (
+    <div className="h-full w-full rounded-md overflow-hidden shadow-sm">
+      <div className="h-full bg-white p-2">
+        <div className="text-center mb-1">
+          <div className="h-2 w-16 bg-[#6B1D2A] mx-auto mb-0.5 rounded-sm" />
+          <div className="h-1 w-12 bg-gray-300 mx-auto mb-0.5 rounded-sm" />
+          <div className="h-[3px] w-full bg-[#6B1D2A] rounded-sm mb-1" />
+        </div>
+        <div className="text-[5px] text-gray-600 mb-1"><span className="font-semibold text-[#6B1D2A]">Education</span></div>
+        <div className="h-1 w-3/4 bg-gray-200 rounded-sm mb-0.5" />
+        <div className="h-1 w-1/2 bg-gray-100 rounded-sm mb-1" />
+        <div className="text-[5px] text-gray-600 mb-1"><span className="font-semibold text-[#6B1D2A]">Publications</span></div>
+        <div className="h-1 w-full bg-gray-100 rounded-sm mb-0.5" />
+        <div className="h-1 w-5/6 bg-gray-100 rounded-sm mb-0.5" />
+        <div className="text-[5px] text-gray-600 mb-1 mt-1"><span className="font-semibold text-[#6B1D2A]">Research Interests</span></div>
+        <div className="flex gap-0.5 flex-wrap">
+          <div className="h-2 w-6 rounded-full border border-[#6B1D2A]/40 bg-[#6B1D2A]/5" />
+          <div className="h-2 w-8 rounded-full border border-[#6B1D2A]/40 bg-[#6B1D2A]/5" />
+          <div className="h-2 w-5 rounded-full border border-[#6B1D2A]/40 bg-[#6B1D2A]/5" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FreelancerPreview() {
+  return (
+    <div className="h-full w-full rounded-md overflow-hidden shadow-sm">
+      <div className="flex h-full">
+        <div className="w-[38%] bg-amber-50 p-1.5">
+          <div className="h-3 w-3 rounded-full bg-amber-400 mx-auto mb-1" />
+          <div className="text-[6px] font-bold text-center mb-1">Jane Doe</div>
+          <div className="text-[4px] text-amber-600 text-center mb-1">Freelancer</div>
+          <div className="text-[4px] text-gray-500">jane@email.com</div>
+          <div className="mt-1">
+            <div className="text-[5px] font-semibold text-gray-700 mb-0.5">Skills</div>
+            <div className="flex flex-wrap gap-0.5">
+              <div className="h-2 w-5 rounded-full bg-amber-200 text-[4px] text-amber-800 flex items-center justify-center">React</div>
+              <div className="h-2 w-4 rounded-full bg-amber-200 text-[4px] text-amber-800 flex items-center justify-center">UI</div>
+            </div>
+          </div>
+        </div>
+        <div className="flex-1 bg-white p-1.5">
+          <div className="text-[6px] font-bold text-gray-800 mb-0.5">Featured Work</div>
+          <div className="bg-amber-50/50 border-l-2 border-amber-400 p-1 mb-1 rounded-sm">
+            <div className="h-1 w-3/4 bg-gray-200 rounded-sm mb-0.5" />
+            <div className="h-1 w-1/2 bg-gray-100 rounded-sm" />
+          </div>
+          <div className="text-[6px] font-bold text-gray-800 mb-0.5">Experience</div>
+          <div className="h-1 w-full bg-gray-100 rounded-sm mb-0.5" />
+          <div className="h-1 w-4/5 bg-gray-100 rounded-sm" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CorporatePreview() {
+  return (
+    <div className="h-full w-full rounded-md overflow-hidden shadow-sm">
+      <div className="h-full bg-white">
+        <div className="bg-[#2d2d2d] p-1.5">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="h-2 w-14 bg-white rounded-sm" />
+              <div className="h-1 w-8 bg-gray-400 rounded-sm mt-0.5" />
+            </div>
+            <div className="flex gap-1">
+              <div className="h-1 w-4 bg-gray-400 rounded-sm" />
+              <div className="h-1 w-4 bg-gray-400 rounded-sm" />
+            </div>
+          </div>
+        </div>
+        <div className="p-1.5">
+          <div className="flex items-center gap-1 mb-0.5">
+            <div className="text-[5px] font-bold text-[#2d2d2d] uppercase">Experience</div>
+            <div className="flex-1 h-[1px] bg-[#3b6b96]" />
+          </div>
+          <div className="h-1 w-full bg-gray-100 rounded-sm mb-0.5" />
+          <div className="h-1 w-5/6 bg-gray-100 rounded-sm mb-1" />
+          <div className="flex items-center gap-1 mb-0.5">
+            <div className="text-[5px] font-bold text-[#2d2d2d] uppercase">Education</div>
+            <div className="flex-1 h-[1px] bg-[#3b6b96]" />
+          </div>
+          <div className="h-1 w-3/4 bg-gray-100 rounded-sm" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ElegantPreview() {
+  return (
+    <div className="h-full w-full rounded-md overflow-hidden shadow-sm">
+      <div className="flex h-full">
+        <div className="w-[30%] bg-gradient-to-b from-rose-50 to-amber-50 p-1.5">
+          <div className="h-2 w-10 bg-rose-300 rounded-sm mx-auto mb-0.5" />
+          <div className="text-[5px] font-bold text-center mb-1">Jane Doe</div>
+          <div className="text-[4px] text-gray-500 text-center mb-1">Designer</div>
+          <div className="flex flex-wrap gap-0.5 mt-1">
+            <div className="h-2 w-5 rounded-full bg-rose-100 text-[4px] text-rose-700" />
+            <div className="h-2 w-4 rounded-full bg-rose-100 text-[4px] text-rose-700" />
+          </div>
+        </div>
+        <div className="flex-1 bg-white p-1.5">
+          <div className="flex items-center gap-1 mb-0.5">
+            <div className="h-[1px] w-2 bg-rose-300" />
+            <div className="text-[5px] font-bold text-rose-400 uppercase tracking-wider">Experience</div>
+          </div>
+          <div className="ml-1.5 border-l-2 border-rose-200 pl-1 mb-1">
+            <div className="h-1 w-3/4 bg-gray-200 rounded-sm mb-0.5" />
+            <div className="h-1 w-1/2 bg-gray-100 rounded-sm" />
+          </div>
+          <div className="flex items-center gap-1 mb-0.5">
+            <div className="h-[1px] w-2 bg-rose-300" />
+            <div className="text-[5px] font-bold text-rose-400 uppercase tracking-wider">Education</div>
+          </div>
+          <div className="h-1 w-3/4 bg-gray-100 rounded-sm" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DeveloperPreview() {
+  return (
+    <div className="h-full w-full rounded-md overflow-hidden shadow-sm">
+      <div className="h-full bg-gray-50">
+        <div className="bg-[#0f172a] p-1.5 flex items-center gap-0.5">
+          <div className="w-1 h-1 rounded-full bg-red-500" />
+          <div className="w-1 h-1 rounded-full bg-yellow-500" />
+          <div className="w-1 h-1 rounded-full bg-green-500" />
+          <div className="flex-1 text-center text-[4px] text-gray-400 font-mono">~/jane-doe</div>
+        </div>
+        <div className="p-1.5">
+          <div className="text-[5px] font-mono font-bold text-gray-800 mb-0.5">{'>'} <span className="text-green-500">Jane Doe</span></div>
+          <div className="bg-white rounded-sm p-1 mb-1 shadow-sm">
+            <div className="text-[5px] font-mono text-green-600 mb-0.5">Tech Stack</div>
+            <div className="flex gap-0.5">
+              <div className="h-2 w-5 rounded-sm bg-green-100 text-[4px] text-green-700">React</div>
+              <div className="h-2 w-4 rounded-sm bg-gray-100 text-[4px] text-gray-600">Go</div>
+            </div>
+          </div>
+          <div className="bg-white rounded-sm p-1 shadow-sm">
+            <div className="text-[5px] font-mono text-green-600 mb-0.5">Projects</div>
+            <div className="h-1 w-3/4 bg-gray-100 rounded-sm" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* -- Template card ---------------------------------------------------------- */
 
 const TEMPLATE_META: {
@@ -1143,6 +1299,36 @@ const TEMPLATE_META: {
     label: 'Infographic',
     description: 'Vibrant teal sidebar with timeline layout, progress bars, and visual stats.',
     Preview: InfographicPreview,
+  },
+  {
+    name: 'academic',
+    label: 'Academic',
+    description: 'Serif typography with burgundy accents, designed for researchers and academia.',
+    Preview: AcademicPreview,
+  },
+  {
+    name: 'freelancer',
+    label: 'Freelancer',
+    description: 'Warm amber design with featured work cards and skills showcase.',
+    Preview: FreelancerPreview,
+  },
+  {
+    name: 'corporate',
+    label: 'Corporate',
+    description: 'Clean formal layout with charcoal header and steel blue accent lines.',
+    Preview: CorporatePreview,
+  },
+  {
+    name: 'elegant',
+    label: 'Elegant',
+    description: 'Refined rose gold design with timeline layout and serif headings.',
+    Preview: ElegantPreview,
+  },
+  {
+    name: 'developer',
+    label: 'Developer',
+    description: 'Terminal-inspired design with dark banner, monospace headings, and green highlights.',
+    Preview: DeveloperPreview,
   },
 ];
 

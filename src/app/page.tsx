@@ -15,6 +15,11 @@ const ExecutiveTemplate = lazy(() => import('@/components/resume-templates/Execu
 const MinimalistTemplate = lazy(() => import('@/components/resume-templates/MinimalistTemplate'));
 const TechTemplate = lazy(() => import('@/components/resume-templates/TechTemplate'));
 const InfographicTemplate = lazy(() => import('@/components/resume-templates/InfographicTemplate'));
+const AcademicTemplate = lazy(() => import('@/components/resume-templates/AcademicTemplate'));
+const FreelancerTemplate = lazy(() => import('@/components/resume-templates/FreelancerTemplate'));
+const CorporateTemplate = lazy(() => import('@/components/resume-templates/CorporateTemplate'));
+const ElegantTemplate = lazy(() => import('@/components/resume-templates/ElegantTemplate'));
+const DeveloperTemplate = lazy(() => import('@/components/resume-templates/DeveloperTemplate'));
 const PortfolioPreview = lazy(() => import('@/components/portfolio/PortfolioPreview'));
 
 function LoadingFallback() {
@@ -36,6 +41,11 @@ function ResumePreviewView() {
     minimalist: MinimalistTemplate,
     tech: TechTemplate,
     infographic: InfographicTemplate,
+    academic: AcademicTemplate,
+    freelancer: FreelancerTemplate,
+    corporate: CorporateTemplate,
+    elegant: ElegantTemplate,
+    developer: DeveloperTemplate,
   }[selectedTemplate];
 
   const handleDownloadPdf = async () => {
@@ -175,6 +185,11 @@ function ResumePreviewView() {
                     ['minimalist', 'Minimalist'],
                     ['tech', 'Tech'],
                     ['infographic', 'Infographic'],
+                    ['academic', 'Academic'],
+                    ['freelancer', 'Freelancer'],
+                    ['corporate', 'Corporate'],
+                    ['elegant', 'Elegant'],
+                    ['developer', 'Developer'],
                   ] as const
                 ).map(([t, label]) => (
                   <button

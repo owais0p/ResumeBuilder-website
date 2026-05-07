@@ -81,3 +81,29 @@ Stage Summary:
 - Dark theme toggle available in nav bar and footer
 - Hero image regenerated with English content (no Chinese text)
 - 0 lint errors, dev server running clean
+
+---
+Task ID: 4
+Agent: Main Orchestrator
+Task: Add 5 new resume templates (Academic, Freelancer, Corporate, Elegant, Developer)
+
+Work Log:
+- Updated TemplateName type to include 12 templates total
+- Created 5 new template components via subagents:
+  - AcademicTemplate.tsx — burgundy/maroon serif design for researchers, numbered publications, research interest tags
+  - FreelancerTemplate.tsx — warm amber/orange two-column layout, featured work cards, skill badges, client testimonials
+  - CorporateTemplate.tsx — charcoal header bar, steel blue accents, single-column formal design, key achievement metrics
+  - ElegantTemplate.tsx — rose gold/blush pink 30/70 split, timeline layout, serif Georgia headings, skill pills
+  - DeveloperTemplate.tsx — terminal-inspired dark banner with window chrome, green monospace highlights, tech stack badges, GitHub-style contribution bars
+- Added 5 mini preview components in ResumeWizard.tsx (AcademicPreview, FreelancerPreview, CorporatePreview, ElegantPreview, DeveloperPreview)
+- Registered all 5 templates in TEMPLATE_META array in ResumeWizard.tsx
+- Added lazy imports and template map entries in page.tsx
+- Updated template switcher buttons in page.tsx to include all 12 templates
+- Updated landing page template showcase with 5 new entries (gradient colors + descriptions)
+- Updated stats counter to show 12+ Templates
+- Lint passes with 0 errors, dev server compiles clean
+
+Stage Summary:
+- 12 resume templates now available: Classic, Modern, Creative, Executive, Minimalist, Tech, Infographic, Academic, Freelancer, Corporate, Elegant, Developer
+- All templates registered in types, page.tsx, ResumeWizard.tsx, and landing page showcase
+- 0 lint errors
