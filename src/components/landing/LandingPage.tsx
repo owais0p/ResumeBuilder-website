@@ -806,6 +806,9 @@ export default function LandingPage() {
         </motion.div>
       </section>
 
+      {/* ── Subtle section glow divider ── */}
+      <div className="mx-auto max-w-xl h-px bg-gradient-to-r from-transparent via-emerald-300/50 to-transparent dark:via-emerald-700/30" />
+
       {/* ================================================================ */}
       {/*  ANIMATED STATS BAR                                              */}
       {/* ================================================================ */}
@@ -821,10 +824,12 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <div className="mx-auto max-w-xl h-px bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent dark:via-emerald-700/25" />
+
       {/* ================================================================ */}
       {/*  BENTO FEATURES GRID                                             */}
       {/* ================================================================ */}
-      <section id="features" className="relative py-24 lg:py-32">
+      <section id="features" className="relative py-24 lg:py-32 bg-gray-50/70 dark:bg-transparent">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             className="mx-auto mb-16 max-w-2xl text-center"
@@ -861,12 +866,12 @@ export default function LandingPage() {
               return (
                 <motion.div
                   key={f.title}
-                  className={`group relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6 sm:p-8 transition-all hover:shadow-lg hover:shadow-gray-200/50 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/20 ${f.span}`}
+                  className={`group relative overflow-hidden rounded-2xl border border-gray-200/80 bg-white/90 p-6 shadow-sm shadow-gray-100/80 sm:p-8 transition-all hover:shadow-lg hover:shadow-emerald-100/40 hover:border-emerald-200/60 dark:border-gray-800 dark:bg-slate-900 dark:shadow-black/10 dark:hover:shadow-black/20 ${f.span}`}
                   variants={slideUp}
                   custom={i * 0.06}
                 >
-                  {/* Gradient top accent */}
-                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${f.gradient} opacity-0 transition-opacity group-hover:opacity-100`} />
+                  {/* Gradient top accent — always visible in light mode for outline glow */}
+                  <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r ${f.gradient} opacity-50 transition-opacity group-hover:opacity-100`} />
 
                   {/* Icon */}
                   <div className={`mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${f.gradient} text-white shadow-sm`}>
@@ -889,11 +894,13 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <div className="mx-auto max-w-xl h-px bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent dark:via-emerald-700/25" />
+
       {/* ================================================================ */}
       {/*  TEMPLATE SHOWCASE                                               */}
       {/* ================================================================ */}
       <section id="templates" className="relative py-24 lg:py-32">
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-emerald-50/50 to-transparent dark:via-emerald-950/20" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-emerald-50/60 to-transparent dark:via-emerald-950/20" />
 
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -946,7 +953,7 @@ export default function LandingPage() {
                   setCurrentView('builder');
                 }}
               >
-                <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-2xl hover:shadow-gray-300/40 hover:-translate-y-1 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/30">
+                <div className="relative overflow-hidden rounded-2xl border border-gray-200/80 bg-white/90 shadow-sm shadow-gray-100/60 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-200/30 hover:-translate-y-1 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/30">
                   <div className="flex">
                     {/* Mini resume preview */}
                     <div className={`relative w-1/2 min-h-[180px] bg-gradient-to-br ${t.color} overflow-hidden`}>
@@ -1005,7 +1012,7 @@ export default function LandingPage() {
                   setCurrentView('builder');
                 }}
               >
-                <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-gray-300/30 hover:-translate-y-0.5 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/20">
+                <div className="overflow-hidden rounded-2xl border border-gray-200/80 bg-white/90 shadow-sm shadow-gray-100/60 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-200/30 hover:-translate-y-0.5 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/20">
                   {/* Template preview */}
                   <div className={`relative h-44 bg-gradient-to-br ${t.color} overflow-hidden`}>
                     <TemplateMockup layout={t.layout} />
@@ -1069,10 +1076,12 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <div className="mx-auto max-w-xl h-px bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent dark:via-emerald-700/25" />
+
       {/* ================================================================ */}
       {/*  HOW IT WORKS — Connected Timeline                                */}
       {/* ================================================================ */}
-      <section id="how-it-works" className="relative py-24 lg:py-32">
+      <section id="how-it-works" className="relative py-24 lg:py-32 bg-gray-50/70 dark:bg-transparent">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
             className="mx-auto mb-20 max-w-2xl text-center"
@@ -1132,13 +1141,15 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <div className="mx-auto max-w-xl h-px bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent dark:via-emerald-700/25" />
+
       {/* ================================================================ */}
       {/*  FULL-WIDTH GRADIENT CTA                                          */}
       {/* ================================================================ */}
       <section className="relative py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <motion.div
-            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-600 via-teal-600 to-emerald-700 px-6 py-16 text-center shadow-2xl shadow-emerald-500/20 sm:px-12 sm:py-20 lg:px-20"
+            className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-600 via-teal-600 to-emerald-700 px-6 py-16 text-center shadow-2xl shadow-emerald-500/25 ring-1 ring-emerald-400/20 sm:px-12 sm:py-20 lg:px-20"
             variants={scaleIn}
             initial="hidden"
             whileInView="visible"
