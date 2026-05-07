@@ -52,3 +52,32 @@ Stage Summary:
 - All templates registered in types, page.tsx, and ResumeWizard.tsx
 - Mobile mode fixed: responsive button sizes, safe-area insets, flex-wrap template switching, compact nav buttons
 - Dev server compiles successfully with no errors
+
+---
+Task ID: 3
+Agent: Main Orchestrator
+Task: Complete landing page redesign + dark theme + fix hero image
+
+Work Log:
+- Discovered previous "landing page redesign" was never actually implemented — the LandingPage.tsx was still the original basic version
+- Added ThemeProvider (next-themes) to layout.tsx for full dark mode support
+- Created ThemeToggle component using useSyncExternalStore for hydration-safe theme switching
+- Regenerated hero.png with English content using AI image generation (1344x768 landscape)
+- Completely rebuilt LandingPage.tsx with all promised features:
+  1. Glassmorphism sticky nav with logo, navigation links, CTA button, and theme toggle
+  2. Full-height hero with animated gradient text, parallax glow effects, 3 floating AI score cards
+  3. Animated stats counter bar (10K+ resumes, 50+ templates, 4.9★ rating, 30s build time) using StatCounter component
+  4. Bento-style asymmetric features grid with colored gradient icons and hover effects
+  5. Template showcase section with 7 visual template cards with gradient previews
+  6. Connected timeline How It Works section with animated traveling dot
+  7. Full-width gradient CTA section with Rocket icon and dual buttons
+  8. Professional 4-column footer (Brand, Product, Resources, Company)
+- Full dark mode support across all sections
+- Fixed lint errors: extracted StatCounter component to satisfy Rules of Hooks, removed unused eslint-disable directive
+- Lint passes with 0 errors, dev server compiles successfully
+
+Stage Summary:
+- Landing page fully redesigned with premium design, all 8 sections as promised
+- Dark theme toggle available in nav bar and footer
+- Hero image regenerated with English content (no Chinese text)
+- 0 lint errors, dev server running clean
