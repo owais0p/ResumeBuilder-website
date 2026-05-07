@@ -1893,11 +1893,32 @@ async function generatePdfWithPuppeteer(htmlPath: string, pdfPath: string) {
   const puppeteer = await import('puppeteer-core');
   const chromium = await import('@sparticuz/chromium');
   
+  const isLocal = !process.env.VERCEL;
+  let localExecutablePath = '';
+  
+  if (isLocal) {
+    const fs = await import('fs');
+    if (process.platform === 'win32') {
+      const paths = [
+        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+        'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+        'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+      ];
+      localExecutablePath = paths.find(p => fs.existsSync(p)) || '';
+    } else if (process.platform === 'darwin') {
+      localExecutablePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+    } else {
+      localExecutablePath = '/usr/bin/google-chrome';
+    }
+  }
+
+  const executablePath = isLocal ? localExecutablePath : await chromium.default.executablePath();
+  
   const browser = await puppeteer.default.launch({
-    args: chromium.default.args,
+    args: isLocal ? [] : chromium.default.args,
     defaultViewport: chromium.default.defaultViewport,
-    executablePath: await chromium.default.executablePath(),
-    headless: chromium.default.headless === true ? true : "new",
+    executablePath,
+    headless: isLocal ? true : (chromium.default.headless === true ? true : "new"),
   });
   
   const page = await browser.newPage();
