@@ -981,6 +981,119 @@ function CreativePreview() {
   );
 }
 
+/* -- Mini previews for new templates ------------------------------------------- */
+
+function ExecutivePreview() {
+  return (
+    <div className="h-full w-full rounded-md bg-white p-3 text-[7px] leading-tight shadow-sm border border-gray-200 overflow-hidden">
+      <div className="flex">
+        {/* Sidebar */}
+        <div className="w-[35%] bg-[#1e3a5f] p-1.5 text-white">
+          <div className="text-[8px] font-bold">Jane Doe</div>
+          <div className="text-[5px] text-[#c9a84c] uppercase tracking-wider mt-0.5">CEO</div>
+          <div className="mt-1 border-t border-white/20 pt-1">
+            <div className="text-[5px] text-gray-300">jane@email.com</div>
+            <div className="text-[5px] text-gray-300">San Francisco, CA</div>
+          </div>
+          <div className="mt-1 border-t border-white/20 pt-1">
+            <div className="text-[5px] text-[#c9a84c] font-semibold">Skills</div>
+            <div className="mt-0.5 h-0.5 bg-white/10 rounded-full" />
+          </div>
+        </div>
+        {/* Main */}
+        <div className="flex-1 p-1.5">
+          <div className="h-0.5 bg-[#c9a84c] w-full mb-1" />
+          <div className="text-[6px] font-bold text-[#1e3a5f] uppercase">Experience</div>
+          <div className="text-[5px] text-[#c9a84c] mt-0.5">Google &mdash; VP Engineering</div>
+          <div className="mt-1 h-0.5 bg-gray-100 rounded-sm" />
+          <div className="text-[6px] font-bold text-[#1e3a5f] uppercase mt-1">Education</div>
+          <div className="text-[5px] text-gray-500 mt-0.5">Stanford &mdash; MBA</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MinimalistPreview() {
+  return (
+    <div className="h-full w-full rounded-md bg-white p-3 text-[7px] leading-tight shadow-sm overflow-hidden">
+      <div className="text-[11px] font-light text-gray-900 tracking-wide">Jane Doe</div>
+      <div className="text-[5px] text-gray-400 mt-0.5 tracking-widest uppercase">Software Engineer</div>
+      <div className="flex items-center gap-1 mt-1 text-[5px] text-gray-400">
+        <span>jane@email.com</span>
+        <span className="text-gray-300">&bull;</span>
+        <span>+1 555-1234</span>
+        <span className="text-gray-300">&bull;</span>
+        <span>San Francisco</span>
+      </div>
+      <div className="border-b border-gray-200 my-1.5" />
+      <div className="text-[6px] uppercase tracking-[0.15em] text-gray-400 mb-0.5">Experience</div>
+      <div className="text-[5px] text-gray-600 font-light">Google &mdash; Senior Engineer</div>
+      <div className="mt-1 text-[6px] uppercase tracking-[0.15em] text-gray-400 mb-0.5">Education</div>
+      <div className="text-[5px] text-gray-600 font-light">MIT &mdash; B.S. Computer Science</div>
+    </div>
+  );
+}
+
+function TechPreview() {
+  return (
+    <div className="h-full w-full rounded-md bg-[#0d1117] p-3 text-[7px] leading-tight shadow-sm overflow-hidden font-mono">
+      <div className="text-[6px] text-[#3fb950]">{'// about.js'}</div>
+      <div className="text-[9px] text-gray-200 mt-0.5">&gt; jane_doe</div>
+      <div className="text-[5px] text-[#8b949e] mt-0.5">Senior Software Engineer</div>
+      <div className="mt-1 border-t border-gray-800 pt-1">
+        <div className="text-[6px] text-[#3fb950]">{'// experience'}</div>
+        <div className="text-[5px] text-[#8b949e] mt-0.5">commit abc1234 @google</div>
+        <div className="text-[5px] text-gray-600">Senior Engineer (main)</div>
+      </div>
+      <div className="mt-1 border-t border-gray-800 pt-1">
+        <div className="text-[6px] text-[#3fb950]">{'// skills'}</div>
+        <div className="flex flex-wrap gap-0.5 mt-0.5">
+          <span className="bg-blue-500/20 text-blue-400 px-1 rounded-sm text-[5px]">React</span>
+          <span className="bg-green-500/20 text-green-400 px-1 rounded-sm text-[5px]">Python</span>
+          <span className="bg-orange-500/20 text-orange-400 px-1 rounded-sm text-[5px]">Go</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfographicPreview() {
+  return (
+    <div className="h-full w-full rounded-md overflow-hidden shadow-sm">
+      <div className="flex h-full">
+        {/* Sidebar */}
+        <div className="w-[38%] bg-gradient-to-b from-teal-600 to-cyan-500 p-2 text-white">
+          <div className="h-5 w-5 rounded-full bg-white/20 flex items-center justify-center text-[7px] font-bold mx-auto mb-1">JD</div>
+          <div className="text-[8px] font-bold text-center">Jane Doe</div>
+          <div className="text-[5px] text-teal-100 text-center">Engineer</div>
+          <div className="mt-1 border-t border-white/20 pt-1">
+            <div className="text-[5px]">jane@email.com</div>
+            <div className="text-[5px]">+1 555-1234</div>
+          </div>
+          <div className="mt-1">
+            <div className="text-[5px] font-semibold mb-0.5">Skills</div>
+            <div className="h-1 bg-white/20 rounded-full"><div className="h-full w-3/4 bg-white rounded-full" /></div>
+          </div>
+        </div>
+        {/* Main */}
+        <div className="flex-1 bg-white p-1.5">
+          <div className="text-[6px] font-bold text-gray-800 border-b-2 border-teal-500 pb-0.5 mb-1">Experience</div>
+          <div className="flex gap-1 mb-1">
+            <div className="w-1 flex flex-col items-center">
+              <div className="h-1.5 w-1.5 rounded-full bg-teal-500" />
+              <div className="flex-1 w-0.5 bg-teal-200" />
+            </div>
+            <div className="text-[5px] text-gray-600">Google &mdash; Engineer</div>
+          </div>
+          <div className="text-[6px] font-bold text-gray-800 border-b-2 border-teal-500 pb-0.5 mb-1">Education</div>
+          <div className="text-[5px] text-gray-600">MIT &mdash; CS</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* -- Template card ---------------------------------------------------------- */
 
 const TEMPLATE_META: {
@@ -1007,6 +1120,30 @@ const TEMPLATE_META: {
     description: 'Bold dark theme with gradient accents and geometric styling.',
     Preview: CreativePreview,
   },
+  {
+    name: 'executive',
+    label: 'Executive',
+    description: 'Premium navy & gold palette with serif typography for senior professionals.',
+    Preview: ExecutivePreview,
+  },
+  {
+    name: 'minimalist',
+    label: 'Minimalist',
+    description: 'Ultra-clean single-column layout with generous whitespace.',
+    Preview: MinimalistPreview,
+  },
+  {
+    name: 'tech',
+    label: 'Tech',
+    description: 'GitHub-inspired dark theme with monospace fonts and terminal aesthetics.',
+    Preview: TechPreview,
+  },
+  {
+    name: 'infographic',
+    label: 'Infographic',
+    description: 'Vibrant teal sidebar with timeline layout, progress bars, and visual stats.',
+    Preview: InfographicPreview,
+  },
 ];
 
 function TemplateSelection() {
@@ -1023,7 +1160,7 @@ function TemplateSelection() {
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
         Select a template that matches your professional style.
       </p>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {TEMPLATE_META.map((tpl) => {
           const isSelected = selectedTemplate === tpl.name;
           return (
@@ -1443,7 +1580,7 @@ export default function ResumeWizard() {
   return (
     <div className="mx-auto flex min-h-screen max-w-4xl flex-col bg-gray-50/50 dark:bg-gray-950">
       {/* ── Top Header ─────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-950/80">
+      <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-950/80 pt-[env(safe-area-inset-top)]">
         <div className="px-4 py-4 sm:px-6">
           {/* Title row */}
           <div className="flex items-center justify-between mb-4">
@@ -1534,40 +1671,44 @@ export default function ResumeWizard() {
       </main>
 
       {/* ── Bottom Navigation ──────────────────────────────────── */}
-      <footer className="sticky bottom-0 z-30 border-t border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-950/80">
-        <div className="flex items-center justify-between px-4 py-4 sm:px-6">
+      <footer className="sticky bottom-0 z-30 border-t border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-950/80 pb-[env(safe-area-inset-bottom)]">
+        <div className="flex items-center justify-between px-3 py-3 sm:px-6 sm:py-4">
           <Button
             type="button"
             variant="outline"
+            size="sm"
             onClick={handlePrev}
             disabled={currentStep === 0}
-            className="gap-1.5"
+            className="gap-1 sm:gap-1.5"
           >
             <ChevronLeft className="h-4 w-4" />
-            Back
+            <span className="hidden xs:inline">Back</span>
           </Button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {currentStep === TOTAL_STEPS - 1 && (
               <Button
                 type="button"
                 variant="outline"
+                size="sm"
                 onClick={() => setCurrentView('preview')}
-                className="gap-1.5 border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 dark:border-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950"
+                className="gap-1 border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 dark:border-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950"
               >
                 <Eye className="h-4 w-4" />
-                Preview Resume
+                <span className="hidden sm:inline">Preview</span>
               </Button>
             )}
 
             <Button
               type="button"
+              size="sm"
               onClick={handleNext}
-              className="gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm hover:from-emerald-700 hover:to-teal-700"
+              className="gap-1 sm:gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm hover:from-emerald-700 hover:to-teal-700"
             >
               {currentStep === TOTAL_STEPS - 1 ? (
                 <>
-                  Generate Resume
+                  <span className="hidden sm:inline">Generate Resume</span>
+                  <span className="sm:hidden">Generate</span>
                   <Sparkles className="h-4 w-4" />
                 </>
               ) : (

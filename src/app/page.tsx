@@ -11,6 +11,10 @@ const ResumeWizard = lazy(() => import('@/components/resume-builder/ResumeWizard
 const ClassicTemplate = lazy(() => import('@/components/resume-templates/ClassicTemplate'));
 const ModernTemplate = lazy(() => import('@/components/resume-templates/ModernTemplate'));
 const CreativeTemplate = lazy(() => import('@/components/resume-templates/CreativeTemplate'));
+const ExecutiveTemplate = lazy(() => import('@/components/resume-templates/ExecutiveTemplate'));
+const MinimalistTemplate = lazy(() => import('@/components/resume-templates/MinimalistTemplate'));
+const TechTemplate = lazy(() => import('@/components/resume-templates/TechTemplate'));
+const InfographicTemplate = lazy(() => import('@/components/resume-templates/InfographicTemplate'));
 const PortfolioPreview = lazy(() => import('@/components/portfolio/PortfolioPreview'));
 
 function LoadingFallback() {
@@ -28,6 +32,10 @@ function ResumePreviewView() {
     classic: ClassicTemplate,
     modern: ModernTemplate,
     creative: CreativeTemplate,
+    executive: ExecutiveTemplate,
+    minimalist: MinimalistTemplate,
+    tech: TechTemplate,
+    infographic: InfographicTemplate,
   }[selectedTemplate];
 
   const handleDownloadPdf = async () => {
@@ -98,35 +106,35 @@ function ResumePreviewView() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-950 dark:to-slate-900">
       {/* Top Navigation */}
-      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 pt-[env(safe-area-inset-top)]">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-14 sm:h-16">
             <button
               onClick={() => setCurrentView('landing')}
               className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent hover:from-emerald-500 hover:to-teal-500 transition-all"
             >
               ResumeAI
             </button>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <button
                 onClick={() => { setCurrentStep(0); setCurrentView('builder'); }}
-                className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                className="px-3 py-2 text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
               >
                 Edit Resume
               </button>
               <button
                 onClick={() => setCurrentView('portfolio')}
-                className="px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                className="px-3 py-2 text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
               >
-                View Portfolio
+                Portfolio
               </button>
             </div>
           </div>
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col lg:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Resume Preview */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -136,7 +144,7 @@ function ResumePreviewView() {
           >
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden">
               <div className="p-1">
-                <div className="overflow-auto max-h-[85vh]">
+                <div className="overflow-auto max-h-[60vh] sm:max-h-[75vh] lg:max-h-[85vh]">
                   {TemplateComponent && (
                     <Suspense fallback={<LoadingFallback />}>
                       <TemplateComponent data={resumeData} />
@@ -157,18 +165,28 @@ function ResumePreviewView() {
             {/* Template Switcher */}
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm p-6 border border-gray-200 dark:border-gray-700">
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-4">Resume Template</h3>
-              <div className="grid grid-cols-3 gap-2">
-                {(['classic', 'modern', 'creative'] as const).map((t) => (
+              <div className="flex flex-wrap gap-1.5">
+                {(
+                  [
+                    ['classic', 'Classic'],
+                    ['modern', 'Modern'],
+                    ['creative', 'Creative'],
+                    ['executive', 'Executive'],
+                    ['minimalist', 'Minimalist'],
+                    ['tech', 'Tech'],
+                    ['infographic', 'Infographic'],
+                  ] as const
+                ).map(([t, label]) => (
                   <button
                     key={t}
                     onClick={() => useAppStore.getState().setSelectedTemplate(t)}
-                    className={`p-2 rounded-lg text-xs font-medium transition-all ${
+                    className={`px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       selectedTemplate === t
                         ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 ring-2 ring-emerald-500'
                         : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-slate-600'
                     }`}
                   >
-                    {t.charAt(0).toUpperCase() + t.slice(1)}
+                    {label}
                   </button>
                 ))}
               </div>

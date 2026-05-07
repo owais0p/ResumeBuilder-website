@@ -67,7 +67,7 @@ export interface Achievement {
   category: string;
 }
 
-export type TemplateName = 'classic' | 'modern' | 'creative';
+export type TemplateName = 'classic' | 'modern' | 'creative' | 'executive' | 'minimalist' | 'tech' | 'infographic';
 
 export type AppView = 'landing' | 'builder' | 'preview' | 'portfolio';
 
