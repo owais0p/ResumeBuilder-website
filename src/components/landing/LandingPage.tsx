@@ -326,7 +326,7 @@ export default function LandingPage() {
       {/* ================================================================ */}
       {/*  HERO SECTION                                                    */}
       {/* ================================================================ */}
-      <section ref={heroRef} className="relative min-h-screen overflow-hidden">
+      <section ref={heroRef} className="relative flex min-h-screen items-center overflow-hidden">
         {/* Ambient background blobs */}
         <div className="pointer-events-none absolute inset-0 -z-10">
           <motion.div
@@ -352,10 +352,10 @@ export default function LandingPage() {
         </div>
 
         <motion.div
-          className="relative flex min-h-screen items-center px-4 pt-24 sm:px-6 lg:px-8"
+          className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
           style={{ opacity: heroOpacity }}
         >
-          <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left — copy */}
             <div className="flex flex-col gap-6 text-center lg:text-left sm:gap-8">
               <motion.div variants={fadeIn} initial="hidden" animate="visible" custom={0}>
@@ -521,7 +521,7 @@ export default function LandingPage() {
       {/* ================================================================ */}
       {/*  ANIMATED STATS BAR                                              */}
       {/* ================================================================ */}
-      <section className="relative z-10 -mt-12">
+      <section className="relative z-10">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-2xl border border-gray-200/80 bg-white/80 p-6 shadow-xl shadow-gray-200/50 backdrop-blur-xl dark:border-gray-700/50 dark:bg-slate-900/80 dark:shadow-black/20 sm:p-8">
             <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-8">
