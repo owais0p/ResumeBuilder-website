@@ -1862,10 +1862,10 @@ export async function POST(request: NextRequest) {
         });
       } catch {
         // Fallback: generate PDF from HTML using Puppeteer directly
-        await generatePdfWithPuppeteer(htmlPath, pdfPath);
+        await generatePdfWithPuppeteer(html, pdfPath);
       }
     } else {
-      await generatePdfWithPuppeteer(htmlPath, pdfPath);
+      await generatePdfWithPuppeteer(html, pdfPath);
     }
 
     const pdfBuffer = await import('fs/promises').then(fs => fs.readFile(pdfPath));
@@ -1889,7 +1889,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-async function generatePdfWithPuppeteer(htmlPath: string, pdfPath: string) {
+async function generatePdfWithPuppeteer(htmlContent: string, pdfPath: string) {
   const puppeteer = await import('puppeteer-core');
   const chromium = await import('@sparticuz/chromium');
   
@@ -1922,7 +1922,8 @@ async function generatePdfWithPuppeteer(htmlPath: string, pdfPath: string) {
   });
   
   const page = await browser.newPage();
-  await page.goto(`file://${htmlPath}`, { waitUntil: 'networkidle0' });
+  // Set content directly and use domcontentloaded for maximum speed on Vercel
+  await page.setContent(htmlContent, { waitUntil: 'domcontentloaded' });
   await page.pdf({
     path: pdfPath,
     format: 'A4',
