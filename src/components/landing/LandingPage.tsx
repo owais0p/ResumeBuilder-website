@@ -510,6 +510,24 @@ export default function LandingPage() {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-white dark:bg-slate-950 text-gray-900 dark:text-gray-100">
+      <style>{`
+        @keyframes emerald-pulse {
+          0%, 100% {
+            opacity: 0.25;
+            transform: scale(0.95);
+          }
+          50% {
+            opacity: 0.55;
+            transform: scale(1.05);
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [style*="emerald-pulse"] {
+            animation: none !important;
+          }
+        }
+      `}</style>
+
       {/* ================================================================ */}
       {/*  GLASSMORPHISM STICKY NAVIGATION                                 */}
       {/* ================================================================ */}
@@ -693,6 +711,24 @@ export default function LandingPage() {
               animate="visible"
               custom={0.2}
             >
+              {/* Emerald pulsing aura behind hero image */}
+              <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center">
+                <div
+                  className="absolute h-[320px] w-[320px] rounded-full opacity-30 blur-[80px] lg:h-[420px] lg:w-[420px] dark:opacity-20"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(16,185,129,0.7) 0%, rgba(20,184,166,0.4) 40%, transparent 70%)',
+                    animation: 'emerald-pulse 4.5s ease-in-out infinite',
+                  }}
+                />
+                <div
+                  className="absolute h-[200px] w-[200px] rounded-full opacity-20 blur-[60px] lg:h-[280px] lg:w-[280px] dark:opacity-15"
+                  style={{
+                    background: 'radial-gradient(circle, rgba(52,211,153,0.6) 0%, rgba(94,234,212,0.3) 50%, transparent 70%)',
+                    animation: 'emerald-pulse 4.5s ease-in-out infinite 1.5s',
+                  }}
+                />
+              </div>
+
               {/* Decorative rings */}
               <div className="absolute h-[420px] w-[420px] rounded-full border border-emerald-200/40 lg:h-[520px] lg:w-[520px] dark:border-emerald-700/20" />
               <div className="absolute h-[340px] w-[340px] rounded-full border border-teal-200/30 lg:h-[440px] lg:w-[440px] dark:border-teal-700/15" />
