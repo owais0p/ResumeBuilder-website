@@ -202,42 +202,49 @@ const steps = [
 
 const templateShowcase = [
   {
+    key: 'classic',
     name: 'Classic',
     description: 'Traditional, timeless design perfect for corporate roles.',
     color: 'from-slate-600 to-slate-800',
     accent: '#475569',
   },
   {
+    key: 'modern',
     name: 'Modern',
     description: 'Clean lines with bold accent colors for tech roles.',
     color: 'from-emerald-600 to-teal-700',
     accent: '#059669',
   },
   {
+    key: 'creative',
     name: 'Creative',
     description: 'Eye-catching design for designers and creatives.',
     color: 'from-violet-600 to-purple-700',
     accent: '#7c3aed',
   },
   {
+    key: 'executive',
     name: 'Executive',
     description: 'Premium navy & gold for senior leadership.',
     color: 'from-blue-900 to-slate-900',
     accent: '#1e3a5f',
   },
   {
+    key: 'minimalist',
     name: 'Minimalist',
     description: 'Stripped-back elegance that lets content shine.',
     color: 'from-gray-700 to-gray-900',
     accent: '#374151',
   },
   {
+    key: 'tech',
     name: 'Tech',
     description: 'GitHub-inspired dark theme for developers.',
     color: 'from-zinc-800 to-zinc-950',
     accent: '#18181b',
   },
   {
+    key: 'infographic',
     name: 'Infographic',
     description: 'Visual timeline with progress bars and icons.',
     color: 'from-teal-500 to-emerald-600',
@@ -250,7 +257,7 @@ const templateShowcase = [
 /* ------------------------------------------------------------------ */
 
 export default function LandingPage() {
-  const { setCurrentView } = useAppStore();
+  const { setCurrentView, setSelectedTemplate } = useAppStore();
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -637,6 +644,10 @@ export default function LandingPage() {
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 custom={i * 0.08}
+                onClick={() => {
+                  setSelectedTemplate(t.key);
+                  setCurrentView('builder');
+                }}
               >
                 <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all hover:shadow-xl hover:shadow-gray-200/50 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/20">
                   {/* Template preview mockup */}
