@@ -158,3 +158,20 @@ Stage Summary:
 - Mobile: All bottom nav buttons (Back, Preview, Generate Resume) now fully visible on mobile using h-dvh + proper flex layout
 - PDF: All 12 templates now have dedicated HTML generators for PDF export
 - 0 lint errors
+
+---
+Task ID: 7
+Agent: Main Orchestrator
+Task: Landing page nav hierarchy, CTA contrast, typography & spacing improvements
+
+Work Log:
+- **Scroll-spy active states**: Created `useActiveSection` hook using `IntersectionObserver` with `rootMargin: '-30% 0px -60% 0px'` to detect which section is centered in the viewport. Active nav link gets `font-semibold text-emerald-700` + `box-shadow: inset 0 -2px 0 0 currentColor` underline effect.
+- **CTA contrast**: Changed header "Get Started" button from filled gradient (`bg-gradient-to-r from-emerald-600 to-teal-500`) to ghost/outline variant (`variant="outline"` with `border-emerald-300 bg-transparent text-emerald-700`) so the hero's primary "Get Started Free" button remains the visual focal point.
+- **Line height**: Changed hero sub-headline from `leading-relaxed` (1.625) to `leading-[1.6]` for improved readability.
+- **Widow fix**: Rephrased "Let AI do the heavy lifting while you focus on..." → "Let AI handle the heavy lifting so you can focus on..." for better text balancing and fewer widows.
+- Lint passes with 0 errors.
+
+Stage Summary:
+- Nav links now highlight with emerald underline + semibold weight as user scrolls
+- Header CTA is now a subtle outline button that doesn't compete with hero CTA
+- Hero sub-headline has improved line-height and balanced phrasing

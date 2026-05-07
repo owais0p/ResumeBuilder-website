@@ -28,6 +28,39 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 import { useAppStore } from '@/lib/store';
 
 /* ------------------------------------------------------------------ */
+/*  Scroll-spy hook                                                    */
+/* ------------------------------------------------------------------ */
+
+const NAV_SECTIONS = [
+  { label: 'Features', id: 'features' },
+  { label: 'Templates', id: 'templates' },
+  { label: 'How It Works', id: 'how-it-works' },
+] as const;
+
+function useActiveSection(sectionIds: readonly { id: string }[]) {
+  const [activeId, setActiveId] = useState('');
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    sectionIds.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveId(id);
+        },
+        { rootMargin: '-30% 0px -60% 0px' },
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, [sectionIds]);
+
+  return activeId;
+}
+
+/* ------------------------------------------------------------------ */
 /*  Animation variants                                                 */
 /* ------------------------------------------------------------------ */
 
@@ -467,6 +500,7 @@ function TemplateMockup({ layout }: { layout: string }) {
 export default function LandingPage() {
   const { setCurrentView, setSelectedTemplate } = useAppStore();
   const heroRef = useRef<HTMLElement>(null);
+  const activeSection = useActiveSection(NAV_SECTIONS);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
@@ -499,30 +533,40 @@ export default function LandingPage() {
 
           {/* Center links (hidden on mobile) */}
           <div className="hidden items-center gap-1 md:flex">
-            {['Features', 'Templates', 'How It Works'].map((label) => (
-              <a
-                key={label}
-                href={`#${label.toLowerCase().replace(/\s+/g, '-')}`}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white"
-              >
-                {label}
-              </a>
-            ))}
+            {NAV_SECTIONS.map(({ label, id }) => {
+              const isActive = activeSection === id;
+              return (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className={`rounded-lg px-3 py-2 text-sm transition-colors ${
+                    isActive
+                      ? 'font-semibold text-emerald-700 dark:text-emerald-400'
+                      : 'font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-white'
+                  }`}
+                  style={isActive ? { boxShadow: 'inset 0 -2px 0 0 currentColor' } : undefined}
+                >
+                  {label}
+                </a>
+              );
+            })}
           </div>
 
           {/* Right actions */}
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <Button
+              variant="outline"
               size="sm"
-              className="hidden rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 text-sm font-semibold shadow-sm transition-all hover:brightness-110 hover:shadow-md active:scale-95 sm:inline-flex"
+              className="hidden rounded-full border-emerald-300 bg-transparent px-4 text-sm font-semibold text-emerald-700 transition-all hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-800 active:scale-95 dark:border-emerald-700 dark:text-emerald-400 dark:hover:border-emerald-600 dark:hover:bg-emerald-950/40 dark:hover:text-emerald-300 sm:inline-flex"
               onClick={() => setCurrentView('builder')}
             >
               Get Started
             </Button>
             <Button
+              variant="outline"
               size="sm"
-              className="rounded-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 text-sm font-semibold shadow-sm transition-all hover:brightness-110 hover:shadow-md active:scale-95 sm:hidden"
+              className="rounded-full border-emerald-300 bg-transparent px-4 text-sm font-semibold text-emerald-700 transition-all hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-800 active:scale-95 dark:border-emerald-700 dark:text-emerald-400 dark:hover:border-emerald-600 dark:hover:bg-emerald-950/40 dark:hover:text-emerald-300 sm:hidden"
               onClick={() => setCurrentView('builder')}
             >
               Start
@@ -588,13 +632,13 @@ export default function LandingPage() {
               </motion.h1>
 
               <motion.p
-                className="mx-auto max-w-xl text-lg leading-relaxed text-gray-600 lg:mx-0 dark:text-gray-400"
+                className="mx-auto max-w-xl text-lg leading-[1.6] text-gray-600 lg:mx-0 dark:text-gray-400"
                 variants={fadeIn}
                 initial="hidden"
                 animate="visible"
                 custom={0.25}
               >
-                Create professional, ATS-optimized resumes and stunning portfolios — no design skills needed. Let AI do the heavy lifting while you focus on landing your dream job.
+                Create professional, ATS-optimized resumes and stunning portfolios — no design skills needed. Let AI handle the heavy lifting so you can focus on landing your dream job.
               </motion.p>
 
               <motion.div
