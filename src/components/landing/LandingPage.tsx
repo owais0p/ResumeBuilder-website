@@ -646,28 +646,26 @@ export default function LandingPage() {
                 }}
               >
                 <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all hover:shadow-xl hover:shadow-gray-200/50 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/20">
-                  {/* Template preview mockup */}
-                  <div className={`relative h-44 bg-gradient-to-br ${t.color} p-4`}>
-                    {/* Mock resume lines */}
-                    <div className="absolute inset-0 p-5 opacity-20">
-                      <div className="mb-3 h-3 w-1/2 rounded bg-white" />
-                      <div className="mb-2 h-2 w-3/4 rounded bg-white" />
-                      <div className="mb-4 h-2 w-2/3 rounded bg-white" />
-                      <div className="mb-2 h-2 w-full rounded bg-white" />
-                      <div className="mb-2 h-2 w-5/6 rounded bg-white" />
-                      <div className="mb-4 h-2 w-4/5 rounded bg-white" />
-                      <div className="mb-2 h-2 w-full rounded bg-white" />
-                      <div className="mb-2 h-2 w-3/4 rounded bg-white" />
-                      <div className="h-2 w-5/6 rounded bg-white" />
-                    </div>
+                  {/* Template preview image */}
+                  <div className="relative h-52 overflow-hidden bg-gray-100 dark:bg-slate-800">
+                    { }
+                    <img
+                      src="/template-preview.png"
+                      alt={`${t.name} template`}
+                      className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+                    />
+                    {/* Gradient overlay tinted to match template color */}
+                    <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent`} />
+                    {/* Color accent stripe */}
+                    <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${t.color}`} />
                     {/* Template name overlay */}
-                    <div className="absolute bottom-3 left-4">
-                      <span className="rounded-lg bg-black/20 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+                    <div className="absolute bottom-3 left-4 right-4">
+                      <span className="rounded-lg bg-white/20 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
                         {t.name}
                       </span>
                     </div>
                     {/* Hover overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all group-hover:bg-black/20">
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all group-hover:bg-black/30">
                       <ArrowRight className="h-6 w-6 text-white opacity-0 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
                     </div>
                   </div>
