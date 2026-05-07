@@ -665,8 +665,9 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {templateShowcase.map((t, i) => (
+          {/* Featured large card */}
+          <div className="mb-8 grid gap-4 lg:grid-cols-2">
+            {templateShowcase.slice(0, 2).map((t, i) => (
               <motion.div
                 key={t.name}
                 className="group cursor-pointer"
@@ -680,35 +681,98 @@ export default function LandingPage() {
                   setCurrentView('builder');
                 }}
               >
-                <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all hover:shadow-xl hover:shadow-gray-200/50 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/20">
-                  {/* Template preview mockup */}
-                  <div className={`relative h-44 bg-gradient-to-br ${t.color} p-4`}>
-                    {/* Mock resume lines */}
-                    <div className="absolute inset-0 p-5 opacity-20">
-                      <div className="mb-3 h-3 w-1/2 rounded bg-white" />
-                      <div className="mb-2 h-2 w-3/4 rounded bg-white" />
-                      <div className="mb-4 h-2 w-2/3 rounded bg-white" />
-                      <div className="mb-2 h-2 w-full rounded bg-white" />
-                      <div className="mb-2 h-2 w-5/6 rounded bg-white" />
-                      <div className="mb-4 h-2 w-4/5 rounded bg-white" />
-                      <div className="mb-2 h-2 w-full rounded bg-white" />
-                      <div className="mb-2 h-2 w-3/4 rounded bg-white" />
-                      <div className="h-2 w-5/6 rounded bg-white" />
+                <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-2xl hover:shadow-gray-300/40 hover:-translate-y-1 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/30">
+                  <div className="flex">
+                    {/* Mini resume preview */}
+                    <div className={`relative w-1/2 min-h-[180px] bg-gradient-to-br ${t.color} overflow-hidden`}>
+                      {/* Tiny mock resume */}
+                      <div className="p-3 opacity-25 text-white">
+                        <div className="h-2.5 w-16 bg-white rounded mb-1" />
+                        <div className="h-1.5 w-24 bg-white/70 rounded mb-3" />
+                        <div className="h-[1px] w-full bg-white/30 mb-2" />
+                        <div className="h-1.5 w-full bg-white/50 rounded mb-1" />
+                        <div className="h-1.5 w-4/5 bg-white/50 rounded mb-1" />
+                        <div className="h-1.5 w-3/5 bg-white/50 rounded mb-3" />
+                        <div className="h-1.5 w-full bg-white/50 rounded mb-1" />
+                        <div className="h-1.5 w-3/4 bg-white/50 rounded" />
+                      </div>
+                      {/* Accent badge */}
+                      <div className="absolute top-3 right-3">
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm">
+                          <LayoutTemplate className="h-3.5 w-3.5 text-white" />
+                        </div>
+                      </div>
                     </div>
-                    {/* Template name overlay */}
-                    <div className="absolute bottom-3 left-4">
-                      <span className="rounded-lg bg-black/20 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-                        {t.name}
+                    {/* Info */}
+                    <div className="flex flex-col justify-center p-5 flex-1">
+                      <span className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
+                        {t.key} template
                       </span>
-                    </div>
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all group-hover:bg-black/20">
-                      <ArrowRight className="h-6 w-6 text-white opacity-0 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1.5">{t.name}</h3>
+                      <p className="text-sm leading-relaxed text-gray-500 dark:text-gray-400 mb-3">{t.description}</p>
+                      <div className="flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 transition-all group-hover:gap-2">
+                        Use this template
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                      </div>
                     </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t.name}</h3>
-                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">{t.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Grid of remaining templates */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {templateShowcase.slice(2).map((t, i) => (
+              <motion.div
+                key={t.name}
+                className="group cursor-pointer"
+                variants={scaleIn}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                custom={(i + 2) * 0.06}
+                onClick={() => {
+                  setSelectedTemplate(t.key);
+                  setCurrentView('builder');
+                }}
+              >
+                <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-gray-300/30 hover:-translate-y-0.5 dark:border-gray-800 dark:bg-slate-900 dark:hover:shadow-black/20">
+                  {/* Template preview */}
+                  <div className={`relative h-40 bg-gradient-to-br ${t.color} overflow-hidden`}>
+                    {/* Mini resume content */}
+                    <div className="p-3 opacity-25 text-white">
+                      <div className="h-2 w-14 bg-white rounded mb-1" />
+                      <div className="h-1 w-20 bg-white/70 rounded mb-2.5" />
+                      <div className="h-[1px] w-full bg-white/30 mb-2" />
+                      <div className="h-1 w-full bg-white/50 rounded mb-1" />
+                      <div className="h-1 w-4/5 bg-white/50 rounded mb-1" />
+                      <div className="h-1 w-3/5 bg-white/50 rounded mb-2.5" />
+                      <div className="h-1 w-full bg-white/50 rounded mb-1" />
+                      <div className="h-1 w-3/4 bg-white/50 rounded" />
+                    </div>
+                    {/* Template icon */}
+                    <div className="absolute top-2.5 right-2.5">
+                      <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-white/20 backdrop-blur-sm">
+                        <LayoutTemplate className="h-3 w-3 text-white" />
+                      </div>
+                    </div>
+                    {/* Hover CTA */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/25">
+                      <div className="flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-gray-900 opacity-0 shadow-lg transition-all duration-300 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 dark:bg-slate-800/90 dark:text-white">
+                        Use Template
+                        <ArrowRight className="h-3 w-3" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="px-4 py-3">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t.name}</h3>
+                        <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{t.description}</p>
+                      </div>
+                      <div className="h-2 w-2 rounded-full transition-colors group-hover:bg-emerald-500" style={{ backgroundColor: t.accent }} />
+                    </div>
                   </div>
                 </div>
               </motion.div>
