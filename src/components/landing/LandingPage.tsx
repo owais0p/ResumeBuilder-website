@@ -128,56 +128,56 @@ const features = [
     icon: Sparkles,
     title: 'AI-Powered Editing',
     description: 'Let AI refine bullet points, optimize keywords, and tailor content for each role you apply to.',
-    gradient: 'from-emerald-500 to-teal-500',
+    gradient: 'from-emerald-600 to-teal-500',
     span: 'md:col-span-2',
   },
   {
     icon: LayoutTemplate,
     title: '12 Beautiful Templates',
     description: 'From Classic to Developer — pick the style that matches your industry and personality.',
-    gradient: 'from-amber-500 to-orange-500',
+    gradient: 'from-teal-600 to-emerald-500',
     span: 'md:col-span-1',
   },
   {
     icon: Download,
     title: 'PDF Export',
     description: 'Export a pixel-perfect PDF ready for emails, applications, and printing.',
-    gradient: 'from-violet-500 to-purple-500',
+    gradient: 'from-green-600 to-emerald-500',
     span: 'md:col-span-1',
   },
   {
     icon: Globe,
     title: 'Portfolio Page',
     description: 'Auto-generate a stunning portfolio page you can share with a single link.',
-    gradient: 'from-sky-500 to-cyan-500',
+    gradient: 'from-emerald-500 to-green-400',
     span: 'md:col-span-1',
   },
   {
     icon: Shield,
     title: 'ATS-Friendly',
     description: 'All templates are tested to pass Applicant Tracking Systems with flying colors.',
-    gradient: 'from-rose-500 to-pink-500',
+    gradient: 'from-teal-500 to-cyan-500',
     span: 'md:col-span-1',
   },
   {
     icon: Wand2,
     title: 'Step-by-Step Wizard',
     description: 'An intuitive guided flow walks you through every section — no guesswork.',
-    gradient: 'from-emerald-500 to-cyan-500',
+    gradient: 'from-emerald-600 to-green-500',
     span: 'md:col-span-1',
   },
   {
     icon: Smartphone,
     title: 'Mobile Friendly',
     description: 'Build and preview your resume on any device, anytime, anywhere.',
-    gradient: 'from-indigo-500 to-violet-500',
+    gradient: 'from-green-500 to-teal-400',
     span: 'md:col-span-1',
   },
   {
     icon: Palette,
     title: 'Dark Mode',
     description: 'Full dark mode support for comfortable editing day and night.',
-    gradient: 'from-slate-500 to-gray-600',
+    gradient: 'from-teal-700 to-emerald-600',
     span: 'md:col-span-1',
   },
 ];
@@ -731,7 +731,7 @@ export default function LandingPage() {
       {/* ================================================================ */}
       <section className="relative z-10">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-gray-200/80 bg-white/80 p-6 shadow-xl shadow-gray-200/50 backdrop-blur-xl dark:border-gray-700/50 dark:bg-slate-900/80 dark:shadow-black/20 sm:p-8">
+          <div className="rounded-2xl border border-gray-200/60 bg-white/60 p-6 shadow-xl shadow-gray-200/40 backdrop-blur-2xl dark:border-white/10 dark:bg-white/[0.04] dark:shadow-black/20 sm:p-8">
             <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-8">
               {stats.map((stat) => (
                 <StatCounter key={stat.label} {...stat} />
