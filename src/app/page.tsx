@@ -50,25 +50,58 @@ function ResumePreviewView() {
 
   const handleDownloadPdf = async () => {
     try {
-      const response = await fetch('/api/generate-pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: resumeData, template: selectedTemplate }),
+      const element = document.querySelector('#resume-preview-content') as HTMLElement;
+      if (!element) throw new Error('Preview element not found');
+
+      // Use dynamic imports for client-side libraries
+      const html2canvas = (await import('html2canvas')).default;
+      const { jsPDF } = await import('jspdf');
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff',
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight
       });
 
-      if (!response.ok) throw new Error('PDF generation failed');
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4'
+      });
 
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${(resumeData.personalInfo.fullName || 'resume').replace(/\s+/g, '_')}_Resume.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save(`${(resumeData.personalInfo.fullName || 'resume').replace(/\s+/g, '_')}_Resume.pdf`);
     } catch (error) {
-      console.error('Download error:', error);
+      console.error('Client-side download error, trying server fallback:', error);
+      try {
+        const response = await fetch('/api/generate-pdf', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ data: resumeData, template: selectedTemplate }),
+        });
+
+        if (!response.ok) throw new Error('Server-side PDF generation failed');
+
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${(resumeData.personalInfo.fullName || 'resume').replace(/\s+/g, '_')}_Resume.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (fallbackError) {
+        console.error('All download methods failed:', fallbackError);
+        alert('Failed to generate PDF. Please try again or use the print option in your browser.');
+      }
     }
   };
 
@@ -154,7 +187,7 @@ function ResumePreviewView() {
           >
             <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden">
               <div className="p-1">
-                <div className="overflow-auto max-h-[60vh] sm:max-h-[75vh] lg:max-h-[85vh]">
+                <div id="resume-preview-content" className="overflow-auto max-h-[60vh] sm:max-h-[75vh] lg:max-h-[85vh]">
                   {TemplateComponent && (
                     <Suspense fallback={<LoadingFallback />}>
                       <TemplateComponent data={resumeData} />
