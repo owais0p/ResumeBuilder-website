@@ -1764,9 +1764,9 @@ export default function ResumeWizard() {
   const StepComponent = STEP_COMPONENTS[currentStep];
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-4xl flex-col bg-gray-50/50 dark:bg-gray-950">
+    <div className="mx-auto flex h-dvh max-w-4xl flex-col overflow-hidden bg-gray-50/50 dark:bg-gray-950">
       {/* ── Top Header ─────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-950/80 pt-[env(safe-area-inset-top)]">
+      <header className="shrink-0 border-b border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-950/80 pt-[env(safe-area-inset-top)]">
         <div className="px-4 py-4 sm:px-6">
           {/* Title row */}
           <div className="flex items-center justify-between mb-4">
@@ -1857,7 +1857,7 @@ export default function ResumeWizard() {
       </main>
 
       {/* ── Bottom Navigation ──────────────────────────────────── */}
-      <footer className="sticky bottom-0 z-30 border-t border-gray-200 bg-white/80 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-950/80 pb-[env(safe-area-inset-bottom)]">
+      <footer className="shrink-0 border-t border-gray-200 bg-white/95 backdrop-blur-lg dark:border-gray-800 dark:bg-gray-950/95 pb-[env(safe-area-inset-bottom)]">
         <div className="flex items-center justify-between px-3 py-3 sm:px-6 sm:py-4">
           <Button
             type="button"
@@ -1868,7 +1868,7 @@ export default function ResumeWizard() {
             className="gap-1 sm:gap-1.5"
           >
             <ChevronLeft className="h-4 w-4" />
-            <span className="hidden xs:inline">Back</span>
+            <span>Back</span>
           </Button>
 
           <div className="flex items-center gap-1.5 sm:gap-2">
@@ -1878,10 +1878,10 @@ export default function ResumeWizard() {
                 variant="outline"
                 size="sm"
                 onClick={() => setCurrentView('preview')}
-                className="gap-1 border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 dark:border-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950"
+                className="gap-1.5 border-emerald-300 text-emerald-700 hover:bg-emerald-50 hover:text-emerald-800 dark:border-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950"
               >
                 <Eye className="h-4 w-4" />
-                <span className="hidden sm:inline">Preview</span>
+                <span>Preview</span>
               </Button>
             )}
 
@@ -1889,13 +1889,12 @@ export default function ResumeWizard() {
               type="button"
               size="sm"
               onClick={handleNext}
-              className="gap-1 sm:gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm hover:from-emerald-700 hover:to-teal-700"
+              className="gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm hover:from-emerald-700 hover:to-teal-700"
             >
               {currentStep === TOTAL_STEPS - 1 ? (
                 <>
-                  <span className="hidden sm:inline">Generate Resume</span>
-                  <span className="sm:hidden">Generate</span>
                   <Sparkles className="h-4 w-4" />
+                  <span>Generate Resume</span>
                 </>
               ) : (
                 <>

@@ -130,3 +130,31 @@ Stage Summary:
 - Each template now shows its category badge, Popular/New tag, and unique mini-layout mockup
 - All stale "7" references updated to "12"
 - 0 lint errors
+
+---
+Task ID: 6
+Agent: Main Orchestrator
+Task: Fix mobile responsiveness — Preview/Generate Resume buttons not visible + Add 6 missing PDF HTML generators
+
+Work Log:
+- **Mobile Fix (ResumeWizard.tsx)**:
+  - Changed parent container from `min-h-screen` to `h-dvh overflow-hidden` to use dynamic viewport height (fixes mobile browser chrome issue where footer was pushed below visible area)
+  - Changed header from `sticky top-0` to `shrink-0` (sticky doesn't work inside overflow-hidden parent)
+  - Changed footer from `sticky bottom-0` to `shrink-0` with `bg-white/95` for better visibility
+  - Made "Preview" button text always visible (removed `hidden sm:inline`)
+  - Made "Generate Resume" text always visible on final step (removed responsive text swapping)
+  - Made "Back" button text always visible (removed `hidden xs:inline`)
+- **PDF Generators (route.ts)**:
+  - Added `generateExecutiveHTML()` — navy sidebar (#1e3a5f) + gold accents (#c9a84c), Georgia serif headers
+  - Added `generateMinimalistHTML()` — ultra-clean single column, black/gray/white only, generous whitespace
+  - Added `generateTechHTML()` — GitHub dark (#0d1117) header, monospace fonts, terminal-style contact, green (#22c55e) accents
+  - Added `generateCorporateHTML()` — charcoal (#374151) header, steel blue (#3b6b96) accents, formal two-column layout
+  - Added `generateElegantHTML()` — rose gold (#e8a0b4), blush (#fdf2f8) tones, timeline experience, Georgia serif
+  - Added `generateDeveloperHTML()` — terminal window chrome (macOS dots), dark banner, green highlights, CLI-style labels
+  - Updated switch statement with 6 new cases before existing modern/default fallback
+- Lint passes with 0 errors, dev server compiles clean
+
+Stage Summary:
+- Mobile: All bottom nav buttons (Back, Preview, Generate Resume) now fully visible on mobile using h-dvh + proper flex layout
+- PDF: All 12 templates now have dedicated HTML generators for PDF export
+- 0 lint errors

@@ -976,6 +976,809 @@ function generateFreelancerHTML(data: ResumeData): string {
 </html>`;
 }
 
+function generateExecutiveHTML(data: ResumeData): string {
+  const { personalInfo, education, skills, experience, projects, certifications, achievements } = data;
+  const skillGroups = skills.reduce<Record<string, typeof skills>>((acc, s) => {
+    if (!acc[s.category]) acc[s.category] = [];
+    acc[s.category].push(s);
+    return acc;
+  }, {});
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 12mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Georgia, 'Palatino Linotype', 'Times New Roman', serif; color: #1a1a1a; font-size: 9.5pt; line-height: 1.5; }
+  .page { display: flex; width: 100%; min-height: 100vh; }
+  .sidebar { width: 33%; flex-shrink: 0; background: #1e3a5f; color: #e8e0d0; padding: 24px 18px; }
+  .sidebar-name { font-size: 18px; font-weight: 700; color: #c9a84c; letter-spacing: 0.5px; line-height: 1.3; margin-bottom: 4px; }
+  .sidebar-title { font-size: 10px; color: rgba(201,168,76,0.8); font-style: italic; margin-bottom: 16px; }
+  .gold-line { height: 2px; background: #c9a84c; margin: 16px 0; }
+  .sidebar-section-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: #c9a84c; margin-bottom: 10px; }
+  .sidebar-contact { margin-bottom: 6px; font-size: 8.5pt; color: #d0ccc4; line-height: 1.6; word-break: break-all; }
+  .sidebar-skill-group { margin-bottom: 12px; }
+  .sidebar-skill-cat { font-size: 8.5pt; font-weight: 600; color: #e8e0d0; margin-bottom: 4px; }
+  .sidebar-skill-item { font-size: 8pt; color: #b0a898; margin-bottom: 2px; padding-left: 8px; border-left: 2px solid #c9a84c; }
+  .sidebar-cert { margin-bottom: 10px; }
+  .sidebar-cert-name { font-size: 8.5pt; font-weight: 600; color: #e8e0d0; line-height: 1.3; }
+  .sidebar-cert-issuer { font-size: 8pt; color: #b0a898; margin-top: 1px; }
+  .sidebar-cert-date { font-size: 7.5pt; color: rgba(201,168,76,0.7); margin-top: 1px; }
+  .sidebar-ach { margin-bottom: 8px; }
+  .sidebar-ach-title { font-size: 8.5pt; font-weight: 600; color: #e8e0d0; }
+  .sidebar-ach-date { font-size: 7.5pt; color: rgba(201,168,76,0.7); margin-top: 1px; }
+  .sidebar-ach-desc { font-size: 8pt; color: #b0a898; margin-top: 2px; }
+  .main { width: 67%; flex-shrink: 0; padding: 24px 20px; }
+  .main-summary { font-size: 9pt; color: #374151; line-height: 1.65; margin-bottom: 20px; border-left: 3px solid #c9a84c; padding-left: 12px; }
+  .main-section { margin-bottom: 18px; }
+  .main-section-title { font-size: 10pt; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #1e3a5f; padding-bottom: 5px; border-bottom: 2px solid #c9a84c; margin-bottom: 12px; }
+  .main-entry { margin-bottom: 12px; }
+  .main-entry-header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .main-entry-title { font-size: 10pt; font-weight: 700; color: #1e3a5f; }
+  .main-entry-subtitle { font-size: 9pt; color: #4b5563; margin-top: 1px; }
+  .main-entry-date { font-size: 8pt; color: #c9a84c; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+  .main-entry-desc { font-size: 8.5pt; color: #4b5563; margin-top: 4px; line-height: 1.55; }
+  .main-entry-loc { font-size: 8pt; color: #6b7280; margin-top: 1px; }
+  .main-project { margin-bottom: 10px; padding: 8px 10px; background: #faf9f7; border-left: 3px solid #c9a84c; }
+  .main-project-title { font-size: 9.5pt; font-weight: 700; color: #1e3a5f; }
+  .main-project-desc { font-size: 8.5pt; color: #4b5563; margin-top: 3px; }
+  .main-project-tech { font-size: 8pt; color: #c9a84c; margin-top: 3px; font-weight: 600; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="sidebar">
+    <div class="sidebar-name">${escapeHtml(personalInfo.fullName || 'Your Name')}</div>
+    <div class="sidebar-title">${escapeHtml(personalInfo.jobTitle || 'Executive Title')}</div>
+    <div class="gold-line"></div>
+
+    ${personalInfo.email ? `<div class="sidebar-contact">${escapeHtml(personalInfo.email)}</div>` : ''}
+    ${personalInfo.phone ? `<div class="sidebar-contact">${escapeHtml(personalInfo.phone)}</div>` : ''}
+    ${personalInfo.location ? `<div class="sidebar-contact">${escapeHtml(personalInfo.location)}</div>` : ''}
+    ${personalInfo.website ? `<div class="sidebar-contact">${escapeHtml(personalInfo.website)}</div>` : ''}
+    ${personalInfo.linkedin ? `<div class="sidebar-contact">${escapeHtml(personalInfo.linkedin)}</div>` : ''}
+    ${personalInfo.github ? `<div class="sidebar-contact">${escapeHtml(personalInfo.github)}</div>` : ''}
+
+    ${Object.keys(skillGroups).length > 0 ? `<div class="gold-line"></div>
+    <div class="sidebar-section-title">Core Competencies</div>
+    ${Object.entries(skillGroups).map(([cat, sk]) => `<div class="sidebar-skill-group">
+      <div class="sidebar-skill-cat">${escapeHtml(cat)}</div>
+      ${sk.map(s => `<div class="sidebar-skill-item">${escapeHtml(s.name)}</div>`).join('')}
+    </div>`).join('')}` : ''}
+
+    ${certifications.length > 0 ? `<div class="gold-line"></div>
+    <div class="sidebar-section-title">Certifications</div>
+    ${certifications.map(c => `<div class="sidebar-cert">
+      <div class="sidebar-cert-name">${escapeHtml(c.name)}</div>
+      <div class="sidebar-cert-issuer">${escapeHtml(c.issuer)}</div>
+      ${c.date ? `<div class="sidebar-cert-date">${formatDate(c.date)}</div>` : ''}
+    </div>`).join('')}` : ''}
+
+    ${achievements.length > 0 ? `<div class="gold-line"></div>
+    <div class="sidebar-section-title">Achievements</div>
+    ${achievements.map(a => `<div class="sidebar-ach">
+      <div class="sidebar-ach-title">${escapeHtml(a.title)}</div>
+      ${a.date ? `<div class="sidebar-ach-date">${formatDate(a.date)}</div>` : ''}
+      ${a.description ? `<div class="sidebar-ach-desc">${escapeHtml(a.description)}</div>` : ''}
+    </div>`).join('')}` : ''}
+  </div>
+
+  <div class="main">
+    ${personalInfo.summary ? `<div class="main-summary">${escapeHtml(personalInfo.summary)}</div>` : ''}
+
+    ${experience.length > 0 ? `<div class="main-section">
+      <div class="main-section-title">Professional Experience</div>
+      ${experience.map(e => `<div class="main-entry">
+        <div class="main-entry-header">
+          <div><div class="main-entry-title">${escapeHtml(e.position)}</div><div class="main-entry-subtitle">${escapeHtml(e.company)}</div></div>
+          <div class="main-entry-date">${formatDate(e.startDate)} &ndash; ${e.current ? 'Present' : formatDate(e.endDate)}</div>
+        </div>
+        ${e.location ? `<div class="main-entry-loc">${escapeHtml(e.location)}</div>` : ''}
+        ${e.description ? `<div class="main-entry-desc">${escapeHtml(e.description)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${education.length > 0 ? `<div class="main-section">
+      <div class="main-section-title">Education</div>
+      ${education.map(ed => `<div class="main-entry">
+        <div class="main-entry-header">
+          <div><div class="main-entry-title">${escapeHtml(ed.degree)}</div><div class="main-entry-subtitle">${escapeHtml(ed.institution)}</div></div>
+          <div class="main-entry-date">${formatDate(ed.startDate)} &ndash; ${formatDate(ed.endDate)}</div>
+        </div>
+        ${ed.location ? `<div class="main-entry-loc">${escapeHtml(ed.location)}</div>` : ''}
+        ${ed.gpa ? `<div style="font-size:8.5pt;color:#c9a84c;margin-top:2px;">GPA: ${escapeHtml(ed.gpa)}</div>` : ''}
+        ${ed.description ? `<div class="main-entry-desc">${escapeHtml(ed.description)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${projects.length > 0 ? `<div class="main-section">
+      <div class="main-section-title">Key Projects</div>
+      ${projects.map(p => `<div class="main-project">
+        <div class="main-project-title">${escapeHtml(p.name)}</div>
+        ${p.description ? `<div class="main-project-desc">${escapeHtml(p.description)}</div>` : ''}
+        ${p.technologies ? `<div class="main-project-tech">${escapeHtml(p.technologies)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+  </div>
+</div>
+</body>
+</html>`;
+}
+
+function generateMinimalistHTML(data: ResumeData): string {
+  const { personalInfo, education, skills, experience, projects, certifications, achievements } = data;
+  const skillGroups = skills.reduce<Record<string, typeof skills>>((acc, s) => {
+    if (!acc[s.category]) acc[s.category] = [];
+    acc[s.category].push(s);
+    return acc;
+  }, {});
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 15mm 18mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica Neue', Helvetica, system-ui, -apple-system, sans-serif; color: #111; font-size: 9.5pt; line-height: 1.6; }
+  .page { width: 100%; }
+  .header { padding-bottom: 24px; margin-bottom: 28px; border-bottom: 1px solid #ddd; }
+  .name { font-size: 22pt; font-weight: 300; color: #000; letter-spacing: 2px; text-transform: uppercase; }
+  .title { font-size: 10pt; color: #999; margin-top: 4px; font-weight: 400; letter-spacing: 0.5px; }
+  .contact { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 12px; font-size: 8.5pt; color: #888; }
+  .contact span { white-space: nowrap; }
+  .section { margin-bottom: 24px; }
+  .section-title { font-size: 8pt; text-transform: uppercase; letter-spacing: 3px; color: #aaa; font-weight: 500; margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid #e5e5e5; }
+  .summary { font-size: 9.5pt; color: #444; line-height: 1.7; }
+  .entry { margin-bottom: 14px; }
+  .entry-header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  .entry-title { font-size: 10pt; font-weight: 500; color: #111; }
+  .entry-subtitle { font-size: 9pt; color: #888; margin-top: 1px; }
+  .entry-date { font-size: 8.5pt; color: #aaa; white-space: nowrap; flex-shrink: 0; }
+  .entry-desc { font-size: 9pt; color: #555; margin-top: 4px; line-height: 1.6; }
+  .entry-loc { font-size: 8.5pt; color: #aaa; margin-top: 1px; }
+  .skill-group { margin-bottom: 10px; }
+  .skill-cat-title { font-size: 8.5pt; font-weight: 500; color: #666; margin-bottom: 4px; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .skill-tag { font-size: 8pt; color: #666; padding: 2px 0; }
+  .skill-tag + .skill-tag::before { content: '\\00b7'; margin-right: 6px; color: #ccc; }
+  .project-entry { margin-bottom: 10px; }
+  .cert-entry { margin-bottom: 8px; }
+  .ach-entry { margin-bottom: 8px; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="name">${escapeHtml(personalInfo.fullName || 'Your Name')}</div>
+    <div class="title">${escapeHtml(personalInfo.jobTitle || 'Professional Title')}</div>
+    <div class="contact">
+      ${personalInfo.email ? `<span>${escapeHtml(personalInfo.email)}</span>` : ''}
+      ${personalInfo.phone ? `<span>${escapeHtml(personalInfo.phone)}</span>` : ''}
+      ${personalInfo.location ? `<span>${escapeHtml(personalInfo.location)}</span>` : ''}
+      ${personalInfo.website ? `<span>${escapeHtml(personalInfo.website)}</span>` : ''}
+      ${personalInfo.linkedin ? `<span>${escapeHtml(personalInfo.linkedin)}</span>` : ''}
+      ${personalInfo.github ? `<span>${escapeHtml(personalInfo.github)}</span>` : ''}
+    </div>
+  </div>
+
+  ${personalInfo.summary ? `<div class="section">
+    <div class="section-title">About</div>
+    <div class="summary">${escapeHtml(personalInfo.summary)}</div>
+  </div>` : ''}
+
+  ${experience.length > 0 ? `<div class="section">
+    <div class="section-title">Experience</div>
+    ${experience.map(e => `<div class="entry">
+      <div class="entry-header">
+        <div><div class="entry-title">${escapeHtml(e.position)}</div><div class="entry-subtitle">${escapeHtml(e.company)}</div></div>
+        <div class="entry-date">${formatDate(e.startDate)} &ndash; ${e.current ? 'Present' : formatDate(e.endDate)}</div>
+      </div>
+      ${e.location ? `<div class="entry-loc">${escapeHtml(e.location)}</div>` : ''}
+      ${e.description ? `<div class="entry-desc">${escapeHtml(e.description)}</div>` : ''}
+    </div>`).join('')}
+  </div>` : ''}
+
+  ${education.length > 0 ? `<div class="section">
+    <div class="section-title">Education</div>
+    ${education.map(ed => `<div class="entry">
+      <div class="entry-header">
+        <div><div class="entry-title">${escapeHtml(ed.degree)}</div><div class="entry-subtitle">${escapeHtml(ed.institution)}</div></div>
+        <div class="entry-date">${formatDate(ed.startDate)} &ndash; ${formatDate(ed.endDate)}</div>
+      </div>
+      ${ed.location ? `<div class="entry-loc">${escapeHtml(ed.location)}</div>` : ''}
+      ${ed.gpa ? `<div style="font-size:8.5pt;color:#999;margin-top:2px;">GPA: ${escapeHtml(ed.gpa)}</div>` : ''}
+      ${ed.description ? `<div class="entry-desc">${escapeHtml(ed.description)}</div>` : ''}
+    </div>`).join('')}
+  </div>` : ''}
+
+  ${Object.keys(skillGroups).length > 0 ? `<div class="section">
+    <div class="section-title">Skills</div>
+    ${Object.entries(skillGroups).map(([cat, sk]) => `<div class="skill-group">
+      <div class="skill-cat-title">${escapeHtml(cat)}</div>
+      <div class="skill-tags">${sk.map(s => `<span class="skill-tag">${escapeHtml(s.name)}</span>`).join('')}</div>
+    </div>`).join('')}
+  </div>` : ''}
+
+  ${projects.length > 0 ? `<div class="section">
+    <div class="section-title">Projects</div>
+    ${projects.map(p => `<div class="project-entry">
+      <div class="entry-title">${escapeHtml(p.name)}${p.link ? ` <span style="font-weight:400;font-size:8.5pt;color:#aaa;">${escapeHtml(p.link)}</span>` : ''}</div>
+      ${p.description ? `<div class="entry-desc">${escapeHtml(p.description)}</div>` : ''}
+      ${p.technologies ? `<div style="font-size:8pt;color:#999;margin-top:2px;">${escapeHtml(p.technologies)}</div>` : ''}
+    </div>`).join('')}
+  </div>` : ''}
+
+  ${certifications.length > 0 ? `<div class="section">
+    <div class="section-title">Certifications</div>
+    ${certifications.map(c => `<div class="cert-entry">
+      <span class="entry-title" style="font-size:9.5pt;">${escapeHtml(c.name)}</span>
+      <span style="font-size:8.5pt;color:#888;"> &mdash; ${escapeHtml(c.issuer)}${c.date ? `, ${formatDate(c.date)}` : ''}</span>
+    </div>`).join('')}
+  </div>` : ''}
+
+  ${achievements.length > 0 ? `<div class="section">
+    <div class="section-title">Achievements</div>
+    ${achievements.map(a => `<div class="ach-entry">
+      <div><span class="entry-title" style="font-size:9.5pt;">${escapeHtml(a.title)}</span>${a.date ? `<span style="font-size:8.5pt;color:#aaa;margin-left:8px;">${formatDate(a.date)}</span>` : ''}</div>
+      ${a.description ? `<div class="entry-desc">${escapeHtml(a.description)}</div>` : ''}
+    </div>`).join('')}
+  </div>` : ''}
+</div>
+</body>
+</html>`;
+}
+
+function generateTechHTML(data: ResumeData): string {
+  const { personalInfo, education, skills, experience, projects, certifications, achievements } = data;
+  const skillGroups = skills.reduce<Record<string, typeof skills>>((acc, s) => {
+    if (!acc[s.category]) acc[s.category] = [];
+    acc[s.category].push(s);
+    return acc;
+  }, {});
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 12mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #c9d1d9; font-size: 9pt; line-height: 1.55; }
+  .page { width: 100%; }
+  .banner { background: #0d1117; padding: 24px 22px 20px; border-bottom: 3px solid #22c55e; }
+  .banner-name { font-family: 'Courier New', Courier, monospace; font-size: 20pt; font-weight: 700; color: #f0f6fc; letter-spacing: -0.5px; }
+  .banner-title { font-family: 'Courier New', Courier, monospace; font-size: 10pt; color: #22c55e; margin-top: 3px; }
+  .banner-contact { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 10px; font-family: 'Courier New', Courier, monospace; font-size: 8pt; color: #8b949e; }
+  .banner-contact span { white-space: nowrap; }
+  .cmd { color: #22c55e; }
+  .str { color: #79c0ff; }
+  .body-content { padding: 16px 22px; }
+  .section { margin-bottom: 16px; }
+  .section-title { font-family: 'Courier New', Courier, monospace; font-size: 9.5pt; font-weight: 700; color: #22c55e; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .section-bracket { color: #8b949e; }
+  .summary-block { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 10px 12px; margin-bottom: 16px; font-size: 8.5pt; color: #c9d1d9; line-height: 1.6; }
+  .entry { margin-bottom: 12px; padding: 8px 10px; background: #161b22; border: 1px solid #30363d; border-radius: 6px; border-left: 3px solid #22c55e; }
+  .entry-header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .entry-title { font-family: 'Courier New', Courier, monospace; font-size: 9.5pt; font-weight: 700; color: #f0f6fc; }
+  .entry-subtitle { font-size: 8.5pt; color: #8b949e; margin-top: 1px; }
+  .entry-date { font-size: 8pt; color: #22c55e; white-space: nowrap; flex-shrink: 0; font-family: 'Courier New', Courier, monospace; }
+  .entry-desc { font-size: 8.5pt; color: #c9d1d9; margin-top: 4px; }
+  .skill-group { margin-bottom: 10px; }
+  .skill-cat { font-family: 'Courier New', Courier, monospace; font-size: 8.5pt; color: #58a6ff; margin-bottom: 4px; }
+  .skill-items { display: flex; flex-wrap: wrap; gap: 4px; }
+  .skill-badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 7.5pt; font-weight: 500; font-family: 'Courier New', Courier, monospace; }
+  .badge-beginner { background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+  .badge-intermediate { background: rgba(88,166,255,0.1); color: #58a6ff; border: 1px solid rgba(88,166,255,0.3); }
+  .badge-advanced { background: rgba(210,153,34,0.1); color: #d29922; border: 1px solid rgba(210,153,34,0.3); }
+  .badge-expert { background: rgba(34,197,94,0.2); color: #22c55e; border: 1px solid #22c55e; font-weight: 700; }
+  .project-card { margin-bottom: 10px; padding: 8px 10px; background: #161b22; border: 1px solid #30363d; border-radius: 6px; }
+  .project-title { font-family: 'Courier New', Courier, monospace; font-size: 9.5pt; font-weight: 700; color: #f0f6fc; }
+  .project-desc { font-size: 8.5pt; color: #c9d1d9; margin-top: 3px; }
+  .project-tech { font-family: 'Courier New', Courier, monospace; font-size: 8pt; color: #22c55e; margin-top: 3px; }
+  .cert-item { margin-bottom: 8px; padding: 6px 8px; background: #161b22; border: 1px solid #30363d; border-radius: 6px; }
+  .ach-item { margin-bottom: 8px; padding-left: 10px; border-left: 2px solid #22c55e; }
+  .ach-title { font-family: 'Courier New', Courier, monospace; font-size: 9pt; font-weight: 700; color: #f0f6fc; }
+  .ach-desc { font-size: 8.5pt; color: #8b949e; margin-top: 2px; }
+  .ach-date { font-size: 8pt; color: #22c55e; font-family: 'Courier New', Courier, monospace; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="banner">
+    <div class="banner-name">${escapeHtml(personalInfo.fullName || 'Your Name')}</div>
+    <div class="banner-title">${escapeHtml(personalInfo.jobTitle || 'Software Engineer')}</div>
+    <div class="banner-contact">
+      ${personalInfo.email ? `<span><span class="cmd">$</span> <span class="str">${escapeHtml(personalInfo.email)}</span></span>` : ''}
+      ${personalInfo.phone ? `<span><span class="cmd">$</span> <span class="str">${escapeHtml(personalInfo.phone)}</span></span>` : ''}
+      ${personalInfo.location ? `<span><span class="cmd">$</span> <span class="str">${escapeHtml(personalInfo.location)}</span></span>` : ''}
+      ${personalInfo.github ? `<span><span class="cmd">$</span> <span class="str">${escapeHtml(personalInfo.github)}</span></span>` : ''}
+      ${personalInfo.linkedin ? `<span><span class="cmd">$</span> <span class="str">${escapeHtml(personalInfo.linkedin)}</span></span>` : ''}
+      ${personalInfo.website ? `<span><span class="cmd">$</span> <span class="str">${escapeHtml(personalInfo.website)}</span></span>` : ''}
+    </div>
+  </div>
+
+  <div class="body-content">
+    ${personalInfo.summary ? `<div class="summary-block">${escapeHtml(personalInfo.summary)}</div>` : ''}
+
+    ${experience.length > 0 ? `<div class="section">
+      <div class="section-title"><span class="section-bracket">//</span> Experience</div>
+      ${experience.map(e => `<div class="entry">
+        <div class="entry-header">
+          <div><div class="entry-title">${escapeHtml(e.position)}</div><div class="entry-subtitle">${escapeHtml(e.company)}${e.location ? ` &middot; ${escapeHtml(e.location)}` : ''}</div></div>
+          <div class="entry-date">${formatDate(e.startDate)} &ndash; ${e.current ? 'Present' : formatDate(e.endDate)}</div>
+        </div>
+        ${e.description ? `<div class="entry-desc">${escapeHtml(e.description)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${education.length > 0 ? `<div class="section">
+      <div class="section-title"><span class="section-bracket">//</span> Education</div>
+      ${education.map(ed => `<div class="entry">
+        <div class="entry-header">
+          <div><div class="entry-title">${escapeHtml(ed.degree)}</div><div class="entry-subtitle">${escapeHtml(ed.institution)}${ed.location ? ` &middot; ${escapeHtml(ed.location)}` : ''}</div></div>
+          <div class="entry-date">${formatDate(ed.startDate)} &ndash; ${formatDate(ed.endDate)}</div>
+        </div>
+        ${ed.gpa ? `<div style="font-size:8.5pt;color:#22c55e;margin-top:2px;">GPA: ${escapeHtml(ed.gpa)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${Object.keys(skillGroups).length > 0 ? `<div class="section">
+      <div class="section-title"><span class="section-bracket">//</span> Skills</div>
+      ${Object.entries(skillGroups).map(([cat, sk]) => `<div class="skill-group">
+        <div class="skill-cat">${escapeHtml(cat)}</div>
+        <div class="skill-items">${sk.map(s => `<span class="skill-badge badge-${s.level}">${escapeHtml(s.name)}</span>`).join('')}</div>
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${projects.length > 0 ? `<div class="section">
+      <div class="section-title"><span class="section-bracket">//</span> Projects</div>
+      ${projects.map(p => `<div class="project-card">
+        <div class="project-title">${escapeHtml(p.name)}</div>
+        ${p.description ? `<div class="project-desc">${escapeHtml(p.description)}</div>` : ''}
+        ${p.technologies ? `<div class="project-tech">${escapeHtml(p.technologies)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${certifications.length > 0 ? `<div class="section">
+      <div class="section-title"><span class="section-bracket">//</span> Certifications</div>
+      ${certifications.map(c => `<div class="cert-item">
+        <span style="font-weight:600;color:#f0f6fc;font-size:9pt;">${escapeHtml(c.name)}</span>
+        <span style="color:#8b949e;font-size:8.5pt;"> &mdash; ${escapeHtml(c.issuer)}${c.date ? `, ${formatDate(c.date)}` : ''}</span>
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${achievements.length > 0 ? `<div class="section">
+      <div class="section-title"><span class="section-bracket">//</span> Achievements</div>
+      ${achievements.map(a => `<div class="ach-item">
+        <div><span class="ach-title">${escapeHtml(a.title)}</span>${a.date ? ` <span class="ach-date">${formatDate(a.date)}</span>` : ''}</div>
+        ${a.description ? `<div class="ach-desc">${escapeHtml(a.description)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+  </div>
+</div>
+</body>
+</html>`;
+}
+
+function generateCorporateHTML(data: ResumeData): string {
+  const { personalInfo, education, skills, experience, projects, certifications, achievements } = data;
+  const skillGroups = skills.reduce<Record<string, typeof skills>>((acc, s) => {
+    if (!acc[s.category]) acc[s.category] = [];
+    acc[s.category].push(s);
+    return acc;
+  }, {});
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 12mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #1f2937; font-size: 9.5pt; line-height: 1.55; }
+  .page { width: 100%; }
+  .header { background: #374151; color: #fff; padding: 22px 24px 18px; }
+  .header-name { font-size: 22pt; font-weight: 700; letter-spacing: -0.3px; }
+  .header-title { font-size: 11pt; color: #93c5fd; margin-top: 2px; font-weight: 400; }
+  .header-contact { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; font-size: 8.5pt; color: #d1d5db; }
+  .header-contact span { white-space: nowrap; }
+  .two-col { display: flex; gap: 20px; padding: 16px 0; }
+  .col-left { width: 50%; }
+  .col-right { width: 50%; }
+  .full-width { padding: 0; }
+  .section { margin-bottom: 16px; }
+  .section-title { font-size: 10pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #374151; padding-bottom: 4px; border-bottom: 2px solid #3b6b96; margin-bottom: 10px; }
+  .summary { font-size: 9pt; color: #4b5563; line-height: 1.6; margin-bottom: 14px; }
+  .entry { margin-bottom: 12px; }
+  .entry-header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .entry-title { font-size: 10pt; font-weight: 600; color: #111827; }
+  .entry-subtitle { font-size: 9pt; color: #6b7280; margin-top: 1px; }
+  .entry-date { font-size: 8pt; color: #3b6b96; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+  .entry-desc { font-size: 8.5pt; color: #4b5563; margin-top: 3px; line-height: 1.55; }
+  .entry-loc { font-size: 8pt; color: #9ca3af; margin-top: 1px; }
+  .skill-group { margin-bottom: 8px; }
+  .skill-cat-title { font-size: 8.5pt; font-weight: 600; color: #374151; margin-bottom: 3px; }
+  .skill-row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .skill-chip { display: inline-block; padding: 2px 8px; border: 1px solid #3b6b96; color: #3b6b96; border-radius: 3px; font-size: 7.5pt; font-weight: 500; }
+  .project-item { margin-bottom: 10px; padding: 6px 8px; border: 1px solid #e5e7eb; border-radius: 4px; border-left: 3px solid #3b6b96; }
+  .project-title { font-size: 9.5pt; font-weight: 600; color: #111827; }
+  .project-desc { font-size: 8.5pt; color: #4b5563; margin-top: 2px; }
+  .project-tech { font-size: 8pt; color: #3b6b96; margin-top: 2px; }
+  .cert-item { margin-bottom: 8px; }
+  .ach-item { margin-bottom: 8px; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-name">${escapeHtml(personalInfo.fullName || 'Your Name')}</div>
+    <div class="header-title">${escapeHtml(personalInfo.jobTitle || 'Professional Title')}</div>
+    <div class="header-contact">
+      ${personalInfo.email ? `<span>${escapeHtml(personalInfo.email)}</span>` : ''}
+      ${personalInfo.phone ? `<span>${escapeHtml(personalInfo.phone)}</span>` : ''}
+      ${personalInfo.location ? `<span>${escapeHtml(personalInfo.location)}</span>` : ''}
+      ${personalInfo.website ? `<span>${escapeHtml(personalInfo.website)}</span>` : ''}
+      ${personalInfo.linkedin ? `<span>${escapeHtml(personalInfo.linkedin)}</span>` : ''}
+      ${personalInfo.github ? `<span>${escapeHtml(personalInfo.github)}</span>` : ''}
+    </div>
+  </div>
+
+  ${personalInfo.summary ? `<div class="full-width" style="padding:14px 0 0;"><div class="summary">${escapeHtml(personalInfo.summary)}</div></div>` : ''}
+
+  <div class="two-col">
+    <div class="col-left">
+      ${experience.length > 0 ? `<div class="section">
+        <div class="section-title">Experience</div>
+        ${experience.map(e => `<div class="entry">
+          <div class="entry-header">
+            <div><div class="entry-title">${escapeHtml(e.position)}</div><div class="entry-subtitle">${escapeHtml(e.company)}</div></div>
+            <div class="entry-date">${formatDate(e.startDate)} &ndash; ${e.current ? 'Present' : formatDate(e.endDate)}</div>
+          </div>
+          ${e.location ? `<div class="entry-loc">${escapeHtml(e.location)}</div>` : ''}
+          ${e.description ? `<div class="entry-desc">${escapeHtml(e.description)}</div>` : ''}
+        </div>`).join('')}
+      </div>` : ''}
+
+      ${projects.length > 0 ? `<div class="section">
+        <div class="section-title">Projects</div>
+        ${projects.map(p => `<div class="project-item">
+          <div class="project-title">${escapeHtml(p.name)}</div>
+          ${p.description ? `<div class="project-desc">${escapeHtml(p.description)}</div>` : ''}
+          ${p.technologies ? `<div class="project-tech">${escapeHtml(p.technologies)}</div>` : ''}
+        </div>`).join('')}
+      </div>` : ''}
+    </div>
+
+    <div class="col-right">
+      ${education.length > 0 ? `<div class="section">
+        <div class="section-title">Education</div>
+        ${education.map(ed => `<div class="entry">
+          <div class="entry-header">
+            <div><div class="entry-title">${escapeHtml(ed.degree)}</div><div class="entry-subtitle">${escapeHtml(ed.institution)}</div></div>
+            <div class="entry-date">${formatDate(ed.startDate)} &ndash; ${formatDate(ed.endDate)}</div>
+          </div>
+          ${ed.location ? `<div class="entry-loc">${escapeHtml(ed.location)}</div>` : ''}
+          ${ed.gpa ? `<div style="font-size:8.5pt;color:#3b6b96;margin-top:2px;">GPA: ${escapeHtml(ed.gpa)}</div>` : ''}
+        </div>`).join('')}
+      </div>` : ''}
+
+      ${Object.keys(skillGroups).length > 0 ? `<div class="section">
+        <div class="section-title">Skills</div>
+        ${Object.entries(skillGroups).map(([cat, sk]) => `<div class="skill-group">
+          <div class="skill-cat-title">${escapeHtml(cat)}</div>
+          <div class="skill-row">${sk.map(s => `<span class="skill-chip">${escapeHtml(s.name)}</span>`).join('')}</div>
+        </div>`).join('')}
+      </div>` : ''}
+
+      ${certifications.length > 0 ? `<div class="section">
+        <div class="section-title">Certifications</div>
+        ${certifications.map(c => `<div class="cert-item">
+          <span style="font-weight:600;font-size:9pt;color:#111827;">${escapeHtml(c.name)}</span>
+          <span style="font-size:8.5pt;color:#6b7280;"> &mdash; ${escapeHtml(c.issuer)}${c.date ? `, ${formatDate(c.date)}` : ''}</span>
+        </div>`).join('')}
+      </div>` : ''}
+
+      ${achievements.length > 0 ? `<div class="section">
+        <div class="section-title">Achievements</div>
+        ${achievements.map(a => `<div class="ach-item">
+          <div><span style="font-weight:600;font-size:9pt;color:#111827;">${escapeHtml(a.title)}</span>${a.date ? `<span style="font-size:8pt;color:#3b6b96;margin-left:6px;">${formatDate(a.date)}</span>` : ''}</div>
+          ${a.description ? `<div class="entry-desc">${escapeHtml(a.description)}</div>` : ''}
+        </div>`).join('')}
+      </div>` : ''}
+    </div>
+  </div>
+</div>
+</body>
+</html>`;
+}
+
+function generateElegantHTML(data: ResumeData): string {
+  const { personalInfo, education, skills, experience, projects, certifications, achievements } = data;
+  const skillGroups = skills.reduce<Record<string, typeof skills>>((acc, s) => {
+    if (!acc[s.category]) acc[s.category] = [];
+    acc[s.category].push(s);
+    return acc;
+  }, {});
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 12mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Georgia, 'Palatino Linotype', Palatino, serif; color: #3d2b1f; font-size: 9.5pt; line-height: 1.6; }
+  .page { width: 100%; }
+  .header { background: #fdf2f8; border-bottom: 2px solid #e8a0b4; padding: 20px 24px 16px; }
+  .header-name { font-size: 24pt; font-weight: 700; color: #8b4c6e; letter-spacing: 0.5px; }
+  .header-title { font-size: 11pt; color: #c07a8e; margin-top: 2px; font-style: italic; }
+  .header-contact { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 8px; font-size: 8.5pt; color: #9b7a8a; }
+  .header-contact span { white-space: nowrap; }
+  .body-content { padding: 16px 24px; }
+  .section { margin-bottom: 18px; }
+  .section-title { font-size: 10pt; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #8b4c6e; margin-bottom: 10px; padding-bottom: 4px; border-bottom: 1px solid #e8a0b4; }
+  .summary { font-size: 9pt; color: #5a3e4b; line-height: 1.7; font-style: italic; margin-bottom: 4px; }
+  .timeline { position: relative; padding-left: 18px; }
+  .timeline-line { position: absolute; left: 5px; top: 6px; bottom: 6px; width: 2px; background: #e8a0b4; }
+  .timeline-item { position: relative; margin-bottom: 14px; }
+  .timeline-dot { position: absolute; left: -18px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: #e8a0b4; border: 2px solid #fdf2f8; }
+  .entry-header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .entry-title { font-size: 10pt; font-weight: 700; color: #8b4c6e; }
+  .entry-subtitle { font-size: 9pt; color: #9b7a8a; margin-top: 1px; }
+  .entry-date { font-size: 8pt; color: #c07a8e; font-style: italic; white-space: nowrap; flex-shrink: 0; }
+  .entry-desc { font-size: 9pt; color: #5a3e4b; margin-top: 3px; line-height: 1.6; }
+  .entry-loc { font-size: 8pt; color: #b0909e; margin-top: 1px; }
+  .edu-entry { margin-bottom: 10px; padding: 6px 8px; background: #fdf2f8; border-radius: 6px; border: 1px solid #f5d5e0; }
+  .skill-group { margin-bottom: 8px; }
+  .skill-cat-title { font-size: 8.5pt; font-weight: 600; color: #8b4c6e; margin-bottom: 4px; }
+  .skill-pills { display: flex; flex-wrap: wrap; gap: 4px; }
+  .skill-pill { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 8pt; font-weight: 500; border: 1px solid #e8a0b4; color: #8b4c6e; background: #fdf2f8; }
+  .project-entry { margin-bottom: 10px; padding: 8px 10px; background: #fdf2f8; border-radius: 6px; border: 1px solid #f5d5e0; border-left: 3px solid #e8a0b4; }
+  .project-title { font-size: 9.5pt; font-weight: 700; color: #8b4c6e; }
+  .project-desc { font-size: 8.5pt; color: #5a3e4b; margin-top: 3px; }
+  .project-tech { font-size: 8pt; color: #c07a8e; margin-top: 3px; }
+  .cert-entry { margin-bottom: 8px; }
+  .ach-entry { margin-bottom: 8px; padding-left: 12px; border-left: 2px solid #e8a0b4; }
+  .ach-title { font-size: 9pt; font-weight: 700; color: #8b4c6e; }
+  .ach-desc { font-size: 8.5pt; color: #9b7a8a; margin-top: 2px; }
+  .ach-date { font-size: 8pt; color: #c07a8e; font-style: italic; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="header-name">${escapeHtml(personalInfo.fullName || 'Your Name')}</div>
+    <div class="header-title">${escapeHtml(personalInfo.jobTitle || 'Professional Title')}</div>
+    <div class="header-contact">
+      ${personalInfo.email ? `<span>${escapeHtml(personalInfo.email)}</span>` : ''}
+      ${personalInfo.phone ? `<span>${escapeHtml(personalInfo.phone)}</span>` : ''}
+      ${personalInfo.location ? `<span>${escapeHtml(personalInfo.location)}</span>` : ''}
+      ${personalInfo.website ? `<span>${escapeHtml(personalInfo.website)}</span>` : ''}
+      ${personalInfo.linkedin ? `<span>${escapeHtml(personalInfo.linkedin)}</span>` : ''}
+      ${personalInfo.github ? `<span>${escapeHtml(personalInfo.github)}</span>` : ''}
+    </div>
+  </div>
+
+  <div class="body-content">
+    ${personalInfo.summary ? `<div class="section">
+      <div class="summary">${escapeHtml(personalInfo.summary)}</div>
+    </div>` : ''}
+
+    ${experience.length > 0 ? `<div class="section">
+      <div class="section-title">Experience</div>
+      <div class="timeline">
+        <div class="timeline-line"></div>
+        ${experience.map(e => `<div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="entry-header">
+            <div><div class="entry-title">${escapeHtml(e.position)}</div><div class="entry-subtitle">${escapeHtml(e.company)}</div></div>
+            <div class="entry-date">${formatDate(e.startDate)} &ndash; ${e.current ? 'Present' : formatDate(e.endDate)}</div>
+          </div>
+          ${e.location ? `<div class="entry-loc">${escapeHtml(e.location)}</div>` : ''}
+          ${e.description ? `<div class="entry-desc">${escapeHtml(e.description)}</div>` : ''}
+        </div>`).join('')}
+      </div>
+    </div>` : ''}
+
+    ${education.length > 0 ? `<div class="section">
+      <div class="section-title">Education</div>
+      ${education.map(ed => `<div class="edu-entry">
+        <div class="entry-header">
+          <div><div class="entry-title">${escapeHtml(ed.degree)}</div><div class="entry-subtitle">${escapeHtml(ed.institution)}</div></div>
+          <div class="entry-date">${formatDate(ed.startDate)} &ndash; ${formatDate(ed.endDate)}</div>
+        </div>
+        ${ed.location ? `<div class="entry-loc">${escapeHtml(ed.location)}</div>` : ''}
+        ${ed.gpa ? `<div style="font-size:8.5pt;color:#c07a8e;margin-top:2px;">GPA: ${escapeHtml(ed.gpa)}</div>` : ''}
+        ${ed.description ? `<div class="entry-desc">${escapeHtml(ed.description)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${Object.keys(skillGroups).length > 0 ? `<div class="section">
+      <div class="section-title">Skills</div>
+      ${Object.entries(skillGroups).map(([cat, sk]) => `<div class="skill-group">
+        <div class="skill-cat-title">${escapeHtml(cat)}</div>
+        <div class="skill-pills">${sk.map(s => `<span class="skill-pill">${escapeHtml(s.name)}</span>`).join('')}</div>
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${projects.length > 0 ? `<div class="section">
+      <div class="section-title">Projects</div>
+      ${projects.map(p => `<div class="project-entry">
+        <div class="project-title">${escapeHtml(p.name)}</div>
+        ${p.description ? `<div class="project-desc">${escapeHtml(p.description)}</div>` : ''}
+        ${p.technologies ? `<div class="project-tech">${escapeHtml(p.technologies)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${certifications.length > 0 ? `<div class="section">
+      <div class="section-title">Certifications</div>
+      ${certifications.map(c => `<div class="cert-entry">
+        <span style="font-weight:600;font-size:9pt;color:#8b4c6e;">${escapeHtml(c.name)}</span>
+        <span style="font-size:8.5pt;color:#9b7a8a;"> &mdash; ${escapeHtml(c.issuer)}${c.date ? `, ${formatDate(c.date)}` : ''}</span>
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${achievements.length > 0 ? `<div class="section">
+      <div class="section-title">Achievements</div>
+      ${achievements.map(a => `<div class="ach-entry">
+        <div><span class="ach-title">${escapeHtml(a.title)}</span>${a.date ? ` <span class="ach-date">${formatDate(a.date)}</span>` : ''}</div>
+        ${a.description ? `<div class="ach-desc">${escapeHtml(a.description)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+  </div>
+</div>
+</body>
+</html>`;
+}
+
+function generateDeveloperHTML(data: ResumeData): string {
+  const { personalInfo, education, skills, experience, projects, certifications, achievements } = data;
+  const skillGroups = skills.reduce<Record<string, typeof skills>>((acc, s) => {
+    if (!acc[s.category]) acc[s.category] = [];
+    acc[s.category].push(s);
+    return acc;
+  }, {});
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page { size: A4; margin: 12mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; color: #c9d1d9; font-size: 9pt; line-height: 1.55; background: #fff; }
+  .page { width: 100%; }
+  .terminal { background: #1a1e2e; border-radius: 8px 8px 0 0; padding: 10px 14px; display: flex; align-items: center; gap: 8px; }
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+  .terminal-title { font-family: 'Courier New', Courier, monospace; font-size: 8pt; color: #6b7280; margin-left: 4px; }
+  .banner { background: #0d1117; padding: 18px 22px 16px; border-bottom: 2px solid #22c55e; }
+  .banner-name { font-family: 'Courier New', Courier, monospace; font-size: 20pt; font-weight: 700; color: #f0f6fc; }
+  .banner-title { font-family: 'Courier New', Courier, monospace; font-size: 10pt; color: #22c55e; margin-top: 2px; }
+  .banner-contact { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 8px; font-family: 'Courier New', Courier, monospace; font-size: 8pt; color: #8b949e; }
+  .banner-contact span { white-space: nowrap; }
+  .prompt { color: #22c55e; }
+  .body-content { padding: 14px 22px; }
+  .section { margin-bottom: 14px; }
+  .section-label { font-family: 'Courier New', Courier, monospace; font-size: 9pt; font-weight: 700; color: #1a1e2e; margin-bottom: 8px; padding: 4px 10px; background: #f1f5f9; border-left: 3px solid #22c55e; border-radius: 0 4px 4px 0; }
+  .code-block { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; border-left: 3px solid #22c55e; }
+  .entry-header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .entry-title { font-family: 'Courier New', Courier, monospace; font-size: 9.5pt; font-weight: 700; color: #0d1117; }
+  .entry-subtitle { font-size: 8.5pt; color: #6b7280; margin-top: 1px; }
+  .entry-date { font-size: 8pt; color: #22c55e; font-family: 'Courier New', Courier, monospace; font-weight: 600; white-space: nowrap; flex-shrink: 0; }
+  .entry-desc { font-size: 8.5pt; color: #4b5563; margin-top: 3px; }
+  .entry-loc { font-size: 8pt; color: #9ca3af; margin-top: 1px; }
+  .skill-group { margin-bottom: 8px; }
+  .skill-cat { font-family: 'Courier New', Courier, monospace; font-size: 8pt; color: #22c55e; font-weight: 600; margin-bottom: 4px; }
+  .skill-row { display: flex; flex-wrap: wrap; gap: 3px; }
+  .skill-tag { font-family: 'Courier New', Courier, monospace; font-size: 7.5pt; padding: 2px 6px; background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; border-radius: 3px; }
+  .project-block { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; }
+  .project-title { font-family: 'Courier New', Courier, monospace; font-size: 9.5pt; font-weight: 700; color: #0d1117; }
+  .project-desc { font-size: 8.5pt; color: #4b5563; margin-top: 3px; }
+  .project-tech { font-family: 'Courier New', Courier, monospace; font-size: 8pt; color: #22c55e; margin-top: 3px; }
+  .cert-item { margin-bottom: 6px; padding: 4px 8px; background: #f8fafc; border-radius: 4px; border: 1px solid #e2e8f0; }
+  .ach-item { margin-bottom: 6px; padding-left: 10px; border-left: 2px solid #22c55e; }
+  .ach-title { font-family: 'Courier New', Courier, monospace; font-size: 9pt; font-weight: 700; color: #0d1117; }
+  .ach-desc { font-size: 8.5pt; color: #6b7280; margin-top: 2px; }
+  .ach-date { font-size: 8pt; color: #22c55e; font-family: 'Courier New', Courier, monospace; }
+  .summary-text { font-size: 9pt; color: #374151; line-height: 1.6; margin-bottom: 14px; padding: 8px 10px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="terminal">
+    <span class="terminal-dot dot-red"></span>
+    <span class="terminal-dot dot-yellow"></span>
+    <span class="terminal-dot dot-green"></span>
+    <span class="terminal-title">resume.ts</span>
+  </div>
+  <div class="banner">
+    <div class="banner-name">${escapeHtml(personalInfo.fullName || 'Your Name')}</div>
+    <div class="banner-title">${escapeHtml(personalInfo.jobTitle || 'Full Stack Developer')}</div>
+    <div class="banner-contact">
+      ${personalInfo.email ? `<span><span class="prompt">&gt;</span> ${escapeHtml(personalInfo.email)}</span>` : ''}
+      ${personalInfo.phone ? `<span><span class="prompt">&gt;</span> ${escapeHtml(personalInfo.phone)}</span>` : ''}
+      ${personalInfo.location ? `<span><span class="prompt">&gt;</span> ${escapeHtml(personalInfo.location)}</span>` : ''}
+      ${personalInfo.github ? `<span><span class="prompt">&gt;</span> ${escapeHtml(personalInfo.github)}</span>` : ''}
+      ${personalInfo.linkedin ? `<span><span class="prompt">&gt;</span> ${escapeHtml(personalInfo.linkedin)}</span>` : ''}
+      ${personalInfo.website ? `<span><span class="prompt">&gt;</span> ${escapeHtml(personalInfo.website)}</span>` : ''}
+    </div>
+  </div>
+
+  <div class="body-content">
+    ${personalInfo.summary ? `<div class="summary-text">${escapeHtml(personalInfo.summary)}</div>` : ''}
+
+    ${experience.length > 0 ? `<div class="section">
+      <div class="section-label">&gt; Experience</div>
+      ${experience.map(e => `<div class="code-block">
+        <div class="entry-header">
+          <div><div class="entry-title">${escapeHtml(e.position)}</div><div class="entry-subtitle">${escapeHtml(e.company)}${e.location ? ` &middot; ${escapeHtml(e.location)}` : ''}</div></div>
+          <div class="entry-date">${formatDate(e.startDate)} &ndash; ${e.current ? 'Present' : formatDate(e.endDate)}</div>
+        </div>
+        ${e.description ? `<div class="entry-desc">${escapeHtml(e.description)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${education.length > 0 ? `<div class="section">
+      <div class="section-label">&gt; Education</div>
+      ${education.map(ed => `<div class="code-block">
+        <div class="entry-header">
+          <div><div class="entry-title">${escapeHtml(ed.degree)}</div><div class="entry-subtitle">${escapeHtml(ed.institution)}${ed.location ? ` &middot; ${escapeHtml(ed.location)}` : ''}</div></div>
+          <div class="entry-date">${formatDate(ed.startDate)} &ndash; ${formatDate(ed.endDate)}</div>
+        </div>
+        ${ed.gpa ? `<div style="font-size:8.5pt;color:#22c55e;margin-top:2px;font-family:'Courier New',Courier,monospace;">GPA: ${escapeHtml(ed.gpa)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${Object.keys(skillGroups).length > 0 ? `<div class="section">
+      <div class="section-label">&gt; Skills</div>
+      ${Object.entries(skillGroups).map(([cat, sk]) => `<div class="skill-group">
+        <div class="skill-cat">${escapeHtml(cat)}</div>
+        <div class="skill-row">${sk.map(s => `<span class="skill-tag">${escapeHtml(s.name)}</span>`).join('')}</div>
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${projects.length > 0 ? `<div class="section">
+      <div class="section-label">&gt; Projects</div>
+      ${projects.map(p => `<div class="project-block">
+        <div class="project-title">${escapeHtml(p.name)}</div>
+        ${p.description ? `<div class="project-desc">${escapeHtml(p.description)}</div>` : ''}
+        ${p.technologies ? `<div class="project-tech">${escapeHtml(p.technologies)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${certifications.length > 0 ? `<div class="section">
+      <div class="section-label">&gt; Certifications</div>
+      ${certifications.map(c => `<div class="cert-item">
+        <span style="font-weight:600;font-size:9pt;color:#0d1117;">${escapeHtml(c.name)}</span>
+        <span style="font-size:8.5pt;color:#6b7280;"> &mdash; ${escapeHtml(c.issuer)}${c.date ? `, ${formatDate(c.date)}` : ''}</span>
+      </div>`).join('')}
+    </div>` : ''}
+
+    ${achievements.length > 0 ? `<div class="section">
+      <div class="section-label">&gt; Achievements</div>
+      ${achievements.map(a => `<div class="ach-item">
+        <div><span class="ach-title">${escapeHtml(a.title)}</span>${a.date ? ` <span class="ach-date">${formatDate(a.date)}</span>` : ''}</div>
+        ${a.description ? `<div class="ach-desc">${escapeHtml(a.description)}</div>` : ''}
+      </div>`).join('')}
+    </div>` : ''}
+  </div>
+</div>
+</body>
+</html>`;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -1001,6 +1804,24 @@ export async function POST(request: NextRequest) {
         break;
       case 'freelancer':
         html = generateFreelancerHTML(data);
+        break;
+      case 'executive':
+        html = generateExecutiveHTML(data);
+        break;
+      case 'minimalist':
+        html = generateMinimalistHTML(data);
+        break;
+      case 'tech':
+        html = generateTechHTML(data);
+        break;
+      case 'corporate':
+        html = generateCorporateHTML(data);
+        break;
+      case 'elegant':
+        html = generateElegantHTML(data);
+        break;
+      case 'developer':
+        html = generateDeveloperHTML(data);
         break;
       case 'modern':
       default:
